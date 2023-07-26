@@ -1,26 +1,33 @@
-import { Suspense } from 'react'
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 // PAGES
-import Home from '@/pages/home'
-import Contact from '@/pages/contact'
-import { Spinner } from '@/components/ui'
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Home />
-  },
-  {
-    path: '/contact',
-    element: <Contact />
-  }
-])
+import { LoginPage } from '@/pages/loginPage/login'
+import { DashboardPage } from '@/pages/dashboardPage'
+import { PredictionsPage } from '@/pages/predictionsPage'
+import { ProductsPage } from '@/pages/productsPage'
+import { ProductPage } from '@/pages/productPage'
+import { ClientPage } from '@/pages/clientPage'
+import { Mold } from '@/components/ui/mold'
+import { PredictionClientPage } from '@/pages/PredictionClientPage'
 
 export default function Router() {
   return (
-    <Suspense fallback={<Spinner />}>
-      <RouterProvider router={router} />
-    </Suspense>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/" element={<Mold />}>
+          <Route path="/mold/dashboardPage" element={<DashboardPage />} />
+          <Route path="/mold/predicoesPage" element={<PredictionsPage />} />
+          <Route
+            path="/mold/predicaoClientPage"
+            element={<PredictionClientPage />}
+          />
+          <Route path="/mold/productsPage" element={<ProductsPage />} />
+          <Route path="/mold/productPage" element={<ProductPage />} />
+          <Route path="/mold/clientPage" element={<ClientPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   )
 }

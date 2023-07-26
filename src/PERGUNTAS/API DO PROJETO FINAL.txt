@@ -1,0 +1,23 @@
+Você18:50
+Central
+logar
+usario e senha
+Lucas Ferreira18:51
+{
+  "email": "admin@arnia.com.br",
+  "senha": "a2PrJyVPX3MCeCUE"
+}
+Você18:51
+depois eu pego o token e o tipo do token
+escolho App
+clico em autorize
+coloco o tipo e o token no campo value
+Você18:52
+com um único espaço
+e no tenat ID coloca a palavra arnia
+no value
+clica em autorize
+Você18:53
+o cadeado tem que estar verde e fechado
+]
+yve

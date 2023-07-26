@@ -1,0 +1,15 @@
+link para aprender a paginação
+https://www.youtube.com/watch?v=v91BLoapVDw
+
+1)- O que significa os erros do arquivo main.tsx?
+2)- Não entendi o tipo criado para o botão e nem a forma como é usado no arquivo index.tsx na pasta button na pasta components
+3)- Não entendi muito bem como funciona o roteamento no arquivo router.tsx na pasta config. O que é Suspense? Por que não foram utilizados 'import { BrowserRouter, Routes, Route } from "react-router-dom"'? Qual é a diferença do roteamento da forma como está com o roteamento aprendido anteriormente que usa: BrowserRouter, Routes, Route ?
+4)- Tentei aplicar margin na tag <tr>, linha da tabela, mas ela não funciona. Por que?
+5)- Também não consegui aplicar border-radius nas tags <tr> e <thead>. Por que?
+
+Alberto Timóteo18:42
+passagem de props para styled-components
+styled.span<{percentage: number}>`
+
+
+

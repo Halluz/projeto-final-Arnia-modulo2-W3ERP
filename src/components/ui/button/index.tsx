@@ -1,9 +1,11 @@
-import { ReactNode } from "react"
+import { ReactNode } from 'react'
+import { ButtonBlue } from './style'
 
-type Props = React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> & {
+type Props = {
   children: ReactNode
+  type?: 'button' | 'reset' | 'submit'
 }
 
-export default function Button ({ children, ...props }: Props) {
-  return <button {...props}>{children}</button>
+export default function Button({ children, type }: Props) {
+  return <ButtonBlue type={type}>{children}</ButtonBlue>
 }
