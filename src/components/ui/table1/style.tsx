@@ -6,12 +6,12 @@ export const Tab1Style = styled.table`
   border-collapse: collapse;
   //border: 2px solid red;
   //border-radius: 1.6rem, 1.6rem, 0rem, 0rem;
-  border-radius: 30px;
+  border-radius: 3rem;
 `
 
 export const Tab1Head = styled.thead`
   background-color: ${colors.primaryBlue};
-  /* border-radius: 1.6rem 1.6rem 0rem 0rem; */
+  border-radius: 1.6rem 1.6rem 0rem 0rem;
   height: 5.6rem;
   color: ${colors.azul4};
   font-size: 1.6rem;
