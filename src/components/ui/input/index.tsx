@@ -6,14 +6,24 @@ type TypeInput = {
   label: string
   placeholder: string
   type2: 'text' | 'email' | 'password'
+  inputValueStateVar: string
+  onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-export const InputForm = ({ label, placeholder, type2 }: TypeInput) => {
-  const [inputValue, setInputValue] = useState('')
+//A variável de estado e a função que a altera serão passadas como prop
+export const InputForm = ({
+  label,
+  placeholder,
+  type2,
+  inputValueStateVar,
+  onInputChange
+}: TypeInput) => {
+  //const [inputValue, setInputValue] = useState('')
   const [typeEye, setTypeEye] = useState(type2)
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value)
+    //setInputValue(event.target.value)
+    onInputChange(event)
   }
 
   //Função de vizualizar ou esconder conteúdo do campo
@@ -27,13 +37,13 @@ export const InputForm = ({ label, placeholder, type2 }: TypeInput) => {
 
   return (
     <ContainerInput>
-      <LabelStyle hasValue={inputValue.length > 0} htmlFor="">
+      <LabelStyle hasValue={inputValueStateVar.length > 0} htmlFor="">
         {label}
       </LabelStyle>
       <InputStyle
-        hasValue={inputValue.length > 0}
+        hasValue={inputValueStateVar.length > 0}
         placeholder={placeholder}
-        value={inputValue}
+        value={inputValueStateVar}
         onChange={handleInputChange}
         type={typeEye}
       />
@@ -42,5 +52,21 @@ export const InputForm = ({ label, placeholder, type2 }: TypeInput) => {
         <Eye src={eyeOlho} alt="Eye logo" onClick={viewOrHideField} />
       )}
     </ContainerInput>
+    // <ContainerInput>
+    //   <LabelStyle hasValue={inputValue.length > 0} htmlFor="">
+    //     {label}
+    //   </LabelStyle>
+    //   <InputStyle
+    //     hasValue={inputValue.length > 0}
+    //     placeholder={placeholder}
+    //     value={inputValue}
+    //     onChange={handleInputChange}
+    //     type={typeEye}
+    //   />
+    //   {/* Renderização condicional do olho. Somente para campos de tipo password/senha */}
+    //   {type2 === 'password' && (
+    //     <Eye src={eyeOlho} alt="Eye logo" onClick={viewOrHideField} />
+    //   )}
+    // </ContainerInput>
   )
 }

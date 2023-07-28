@@ -2,15 +2,15 @@ import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
 import { colors } from '@/assets/styles/colors'
 
-export const NavLinks = styled(NavLink)<{ compressSidebar: boolean }>`
+export const NavLinks = styled(NavLink)<{ compresssidebar: boolean }>`
   display: flex;
   align-items: center;
   text-decoration: none;
   color: white;
   gap: 2.2rem;
   height: 5.6rem;
-  ${({ compressSidebar }) =>
-    compressSidebar ? '' : 'width: 25.5rem'}; //width: 25.5rem;
+  ${({ compresssidebar }) =>
+    compresssidebar ? '' : 'width: 25.5rem'}; //width: 25.5rem;
   border-radius: 0.8rem;
   padding-left: 1.6rem;
   padding-right: 1.6rem;

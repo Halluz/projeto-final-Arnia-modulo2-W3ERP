@@ -1,19 +1,19 @@
 import styled from 'styled-components'
 import { colors } from '@/assets/styles/colors'
 
-export const HeaderSystem = styled.header<{ compressSidebar: boolean }>`
+export const HeaderSystem = styled.header<{ compresssidebar: boolean }>`
   z-index: 2;
   background-color: white;
   position: fixed;
   top: 0rem;
-  left: ${({ compressSidebar }) =>
-    compressSidebar ? '11.6rem' : '27.1rem'}; //27.1rem;
+  left: ${({ compresssidebar }) =>
+    compresssidebar ? '11.6rem' : '27.1rem'}; //27.1rem;
   height: 13rem; //130px;
   display: flex;
   justify-content: flex-end;
   //A função calc() permite realizar calculos matemáticos dentro das propriedades CSS.
-  width: ${({ compressSidebar }) =>
-    compressSidebar
+  width: ${({ compresssidebar }) =>
+    compresssidebar
       ? 'calc( 100% - 11.6rem)'
       : 'calc( 100% - 27.1rem )'}; //Com esta função cal() o elemento tera sua largura recalculada sempre que a largura do elemento pai for alterada. Este elemento terá a largura disponível no elemento pai.
   padding-right: 4.8rem;

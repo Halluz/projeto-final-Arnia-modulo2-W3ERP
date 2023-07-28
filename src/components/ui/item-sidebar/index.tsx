@@ -4,18 +4,18 @@ type typeItemSidebar = {
   title: string
   image: string
   to: string
-  compressSidebar: boolean
+  compresssidebar: boolean
 }
 
 export const ItemSidebar = ({
   title,
   image,
   to,
-  compressSidebar
+  compresssidebar
 }: typeItemSidebar) => {
   return (
     <li>
-      <NavLinks compressSidebar={compressSidebar} to={to}>
+      <NavLinks compresssidebar={compresssidebar} to={to}>
         <img src={image} alt={`${title} Logo`} />
         {title}
       </NavLinks>

@@ -11,12 +11,12 @@ import Dropdown from '../dropdow'
 type PropsHeader = {
   name: string
   email: string
-  compressSidebar: boolean
+  compresssidebar: boolean
 }
 
-export const Header = ({ name, email, compressSidebar }: PropsHeader) => {
+export const Header = ({ name, email, compresssidebar }: PropsHeader) => {
   return (
-    <HeaderSystem compressSidebar={compressSidebar}>
+    <HeaderSystem compresssidebar={compresssidebar}>
       <Profile>
         <ProfileLogo src={userLogo} alt="Logotipo de Usuário" />
         <div>

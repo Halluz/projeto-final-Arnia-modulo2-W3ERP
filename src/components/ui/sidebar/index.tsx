@@ -26,27 +26,27 @@ const vetItemList = [
 ]
 
 type TypeSidebar = {
-  compressSidebar: boolean
-  setCompressSidebar: React.Dispatch<React.SetStateAction<boolean>>
+  compresssidebar: boolean
+  setcompresssidebar: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const Sidebar = ({
-  compressSidebar,
-  setCompressSidebar
+  compresssidebar,
+  setcompresssidebar
 }: TypeSidebar) => {
-  if (compressSidebar === false) {
+  if (compresssidebar === false) {
     return (
-      <ContainerSidebarNav compressSidebar={compressSidebar}>
+      <ContainerSidebarNav compresssidebar={compresssidebar}>
         <LogoW3ERP
           title="Comprimir menu lateral"
-          onClick={() => setCompressSidebar(!compressSidebar)}
+          onClick={() => setcompresssidebar(!compresssidebar)}
           src={logoW3ERP}
           alt="Logo W3ERP"
         />
         <ListMenu>
           {vetItemList.map((element, index) => (
             <ItemSidebar
-              compressSidebar={compressSidebar}
+              compresssidebar={compresssidebar}
               key={`${index}${element.title}`}
               title={element.title}
               image={element.icon}
@@ -63,17 +63,17 @@ export const Sidebar = ({
     )
   } else {
     return (
-      <ContainerSidebarNav compressSidebar={compressSidebar}>
+      <ContainerSidebarNav compresssidebar={compresssidebar}>
         <LogoW3ERP
           title="Expandir menu lateral"
-          onClick={() => setCompressSidebar(!compressSidebar)}
+          onClick={() => setcompresssidebar(!compresssidebar)}
           src={smallLogoW3}
           alt="Logo W3ERP"
         />
         <ListMenu>
           {vetItemList.map((element, index) => (
             <ItemSidebar
-              compressSidebar={compressSidebar}
+              compresssidebar={compresssidebar}
               key={`${index}${element.title}`}
               title={''}
               image={element.icon}

@@ -5,22 +5,22 @@ import { Outlet } from 'react-router-dom'
 import { useState } from 'react'
 
 export const Mold = () => {
-  const [compressSidebar, setCompressSidebar] = useState(false)
+  const [compresssidebar, setcompresssidebar] = useState(false)
 
   return (
     <Container>
       <Sidebar
-        compressSidebar={compressSidebar}
-        setCompressSidebar={setCompressSidebar}
+        compresssidebar={compresssidebar}
+        setcompresssidebar={setcompresssidebar}
       />
       <RightSide>
         <Header
-          compressSidebar={compressSidebar}
+          compresssidebar={compresssidebar}
           name="Rafel Pimenta"
           email="rafael@gmail.com"
         />
         {/* conteúdo */}
-        <MenusBackgroundSpace compressSidebar={compressSidebar}>
+        <MenusBackgroundSpace compresssidebar={compresssidebar}>
           <Outlet />
         </MenusBackgroundSpace>
       </RightSide>

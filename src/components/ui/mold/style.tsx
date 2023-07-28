@@ -11,8 +11,8 @@ export const RightSide = styled.div`
   width: 100%;
   border: 7px solid orange;
 `
-export const MenusBackgroundSpace = styled.div<{ compressSidebar: boolean }>`
+export const MenusBackgroundSpace = styled.div<{ compresssidebar: boolean }>`
   padding: 13rem 0rem 0rem
-    ${({ compressSidebar }) => (compressSidebar ? '11.6rem' : '27.1rem')};
+    ${({ compresssidebar }) => (compresssidebar ? '11.6rem' : '27.1rem')};
   background-color: ${colors.grey50};
 `
