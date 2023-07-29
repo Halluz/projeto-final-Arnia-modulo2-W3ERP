@@ -13,6 +13,7 @@ import {
 import Button2 from '../button-copy'
 import { instanceLogin } from '@/config/services/functions'
 import { useState } from 'react'
+import { toLog } from '@/config/services/functions'
 
 export const FormLogin = () => {
   const [email, setEmail] = useState('')
@@ -29,10 +30,10 @@ export const FormLogin = () => {
     setPassword(event.target.value)
   }
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault() // Previne o comportamento padrão de recarregar a página ao enviar o formulário
 
-    const toLog = async (email: string, password: string) => {
+    /* const toLog = async (email: string, password: string) => {
       try {
         console.log(`email: ${email} | senha: ${password}`)
         const response = await instanceLogin.post(
@@ -47,10 +48,16 @@ export const FormLogin = () => {
       } catch (error) {
         console.log('Ocorreu um erro: ', error)
       }
-    }
+    } */
+
     //chamada da função
-    toLog(email, password)
+    const response = await toLog(email, password)
+    console.log('Código de status da requisição: ', response.status)
+    if (response.status === 200) {
+      systemNavigate('/mold/dashboardPage')
+    }
   }
+
   return (
     <FormStyle onSubmit={handleSubmit}>
       <TitleH3>Seja bem vindo(a)!</TitleH3>
