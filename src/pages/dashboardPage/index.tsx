@@ -80,10 +80,8 @@ const vet = [
 ]
 
 export const DashboardPage = () => {
-  const [productsList, setProductsList] = useState<Array<TypeProductDashboard>>(
-    []
-  )
-  const [clientsList, setClientsList] = useState<Array<TypeClientDashboard>>([])
+  const [productsList, setProductsList] = useState<TypeProductDashboard[]>([])
+  const [clientsList, setClientsList] = useState<TypeClientDashboard[]>([])
 
   const [statusClients, setStatusClients] = useState<
     'EM_ALTA' | 'EM_BAIXA' | 'NEUTRO'

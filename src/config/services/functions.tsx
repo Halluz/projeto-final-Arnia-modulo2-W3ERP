@@ -18,7 +18,10 @@ export const instanceLogin = axios.create({
   baseURL: 'https://api.predict.app.br/',
   headers: {
     'X-TENANT-ID': 'arnia',
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    Autorization: `${localStorage.getItem('type')} ${localStorage.getItem(
+      'token'
+    )}`
   }
 })
 
@@ -64,7 +67,7 @@ export const getDashboardClientsList = async (
 ) => {
   try {
     const response = await instance.get(
-      `/app/dashboard/clientes&classificacao=${classification}`
+      `/app/dashboard/clientes/classificacao=${classification}`
     )
     if (response.status === 200) {
       console.log('RespostaAPI status 200: ', response.data)
