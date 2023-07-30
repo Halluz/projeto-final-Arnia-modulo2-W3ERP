@@ -16,7 +16,7 @@ export default function Router() {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/" element={<Mold />}>
+        <Route path="/mold" element={<Mold />}>
           <Route path="/mold/dashboardPage" element={<DashboardPage />} />
           <Route path="/mold/predicoesPage" element={<PredictionsPage />} />
           <Route

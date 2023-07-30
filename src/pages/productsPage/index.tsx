@@ -8,7 +8,7 @@ import Button2 from '@/components/ui/button-copy'
 type TypeVet2 = {
   atributo1: string
   atributo2: string
-  atributo3: TypeStatus['classificacao']
+  atributo3: TypeStatus['status']
   atributo4: number
 }
 
@@ -126,7 +126,7 @@ export const ProductsPage = () => {
               key={`${index}${element.atributo1}`}
               cell1={element.atributo1}
               cell2={element.atributo2}
-              cell3={<Status classificacao={element.atributo3} />}
+              cell3={<Status status={element.atributo3} />}
               cell4={
                 element.atributo4 > 0
                   ? `+${element.atributo4}%`

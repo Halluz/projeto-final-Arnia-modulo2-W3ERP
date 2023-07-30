@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import { Tab1TR, Tab1TD } from './style'
 
 type TypeTab1Row = {
-  cell1: string
+  cell1: number
   cell2: string
   cell3: ReactNode
   cell4: ReactNode

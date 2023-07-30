@@ -52,7 +52,7 @@ export const FormLogin = () => {
 
     //chamada da função
     const response = await toLog(email, password)
-    console.log('Código de status da requisição: ', response.status)
+    console.log('Código de status da requisição de login: ', response.status)
     if (response.status === 200) {
       systemNavigate('/mold/dashboardPage')
     }
