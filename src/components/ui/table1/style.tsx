@@ -6,7 +6,7 @@ export const Tab1Style = styled.table`
   border-collapse: collapse;
   //border: 2px solid red;
   //border-radius: 1.6rem, 1.6rem, 0rem, 0rem;
-  border-radius: 3rem;
+  /* border-radius: 3rem; */
 `
 
 export const Tab1Head = styled.thead`

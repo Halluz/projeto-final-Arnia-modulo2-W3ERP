@@ -11,6 +11,7 @@ import checkOne from '../../assets/images/icons/check-oneDarBaixa.svg'
 import { Table3 } from '@/components/ui/table3'
 import { Table3Row } from '@/components/ui/table3Row'
 import { CheckOneComponent } from '@/components/ui/checkOne'
+import { PanelPrediction } from '@/components/ui/panelPredictionClientPage'
 
 const vet1 = [
   {
@@ -180,7 +181,11 @@ export const PredictionClientPage = () => {
   return (
     <ContainerPage>
       <Back content="Detalhamento" />
-      <Panel panelTitle="Nome do Cliente" />
+      <PanelPrediction
+        clientName="Hotel Ibis"
+        clientPhoneNumber="31 99468-9894"
+        clientEmail="hotelibis@gmail.com"
+      />
       <ContainerTables>
         <ContainerTable>
           <div>

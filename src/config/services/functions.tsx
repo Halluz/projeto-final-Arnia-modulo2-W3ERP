@@ -18,10 +18,7 @@ export const instanceLogin = axios.create({
   baseURL: 'https://api.predict.app.br/',
   headers: {
     'X-TENANT-ID': 'arnia',
-    'Content-Type': 'application/json',
-    Autorization: `${localStorage.getItem('type')} ${localStorage.getItem(
-      'token'
-    )}`
+    'Content-Type': 'application/json'
   }
 })
 
@@ -42,6 +39,8 @@ export const toLog = async (email: string, password: string) => {
     if (response.status === 200) {
       localStorage.setItem('token', response.data.token)
       localStorage.setItem('type', response.data.type)
+      console.log('localStorage "token":', localStorage.getItem('token'))
+      console.log('localStorage "type": ', localStorage.getItem('type'))
       return response
     }
   } catch (error) {
@@ -67,7 +66,7 @@ export const getDashboardClientsList = async (
 ) => {
   try {
     const response = await instance.get(
-      `/app/dashboard/clientes/classificacao=${classification}`
+      `/app/dashboard/clientes?&classificacao=${classification}`
     )
     if (response.status === 200) {
       console.log('RespostaAPI status 200: ', response.data)
@@ -98,7 +97,7 @@ export const getDashboardProductsList = async (
 ) => {
   try {
     const response = await instance.get(
-      `/app/dashboard/produtos&classificacao=${classification}`
+      `/app/dashboard/produtos?&classificacao=${classification}`
     )
     if (response.status === 200) {
       console.log('RespostaAPI status 200: ', response.data)
@@ -106,6 +105,31 @@ export const getDashboardProductsList = async (
     }
     return response
     console.log(response)
+  } catch (error) {
+    console.log('Ocorreu um erro: ', error)
+
+    if (isAxiosError(error)) {
+      //narrowing (seleção) para o tipo de erro Axios
+      if (error.response?.status === 401) {
+        throw new Error('Operação não autorizada')
+      }
+      if (error.response?.status === 403) {
+        throw new Error('Usuário não tem permissão de acesso')
+      }
+      if (error.response?.status === 404) {
+        throw new Error('Página não encontrada')
+      }
+    }
+  }
+}
+
+export const getInfoPanelDashboard = async () => {
+  try {
+    const response = await instance.get('/app/dashboard/resumo')
+    if (response.status === 200) {
+      return response.data
+    }
+    return response
   } catch (error) {
     console.log('Ocorreu um erro: ', error)
 

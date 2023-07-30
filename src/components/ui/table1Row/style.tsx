@@ -7,6 +7,10 @@ export const Tab1TR = styled.tr<{ lineHeight: string | undefined }>`
   border-top: 0.8rem solid ${colors.white};
   border-bottom: 0.8rem solid ${colors.white};
   background-color: ${colors.grey100};
+  &:hover {
+    font-weight: 700;
+    cursor: pointer;
+  }
   /* &:nth-child(2n) {
     background-color: $colors.grey400};
   } */

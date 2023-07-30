@@ -44,7 +44,7 @@ const Dropdown: React.FC = () => {
           <img src={settingsLogo} alt="Logo Engrenagem" /> Configurações
         </DropdownMenuItem>
         <hr style={{ border: `1px solid ${colors.grey100}` }} />
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={event => logOut(event)}>
           <img src={logout} alt="Logo Sair" /> Sair
         </DropdownMenuItem>
       </DropdownMenu>

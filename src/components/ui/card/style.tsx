@@ -5,8 +5,8 @@ import graphicImage from '../../../assets/images/graphicDashboard2.png'
 export const ContainerCard = styled.div`
   display: flex;
   align-items: center;
-  padding-left: 2.4rem;
-  gap: 2.4rem;
+  padding-left: 2rem;
+  gap: 2rem;
   flex: 1 0 20rem; /* Flex: grow shrink basis */
   max-width: 34.6rem;
   height: 12.4rem;

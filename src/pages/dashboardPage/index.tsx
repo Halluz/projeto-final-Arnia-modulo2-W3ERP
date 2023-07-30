@@ -1,4 +1,4 @@
-import { PanelDashboard } from '@/components/ui/panel-dashboard'
+import { PanelDashboard } from '@/components/ui/panelDashboard'
 import { ContainerPage, ContainerTables, ContainerTable } from './style'
 import { Table1 } from '@/components/ui/table1'
 import arrow from '../../assets/images/icons/rightArrow.svg'
@@ -103,6 +103,7 @@ export const DashboardPage = () => {
       const response = await getDashboardProductsList(statusProducts)
       setProductsList(response)
     }
+    getDashboardProductsList2()
   }, [statusProducts])
 
   return (

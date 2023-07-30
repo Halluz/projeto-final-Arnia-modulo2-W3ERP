@@ -9,6 +9,7 @@ import {
 } from './style'
 import { ReactNode } from 'react'
 import graphic from '../../../assets/images/graphicDashboard2.png'
+import { GraphicCircle } from '../graphicCircle'
 
 type TypeCard = {
   children: ReactNode
@@ -25,9 +26,10 @@ export const Card = ({
 }: TypeCard) => {
   return (
     <ContainerCard>
-      <GraphicStyle>
+      {/* <GraphicStyle>
         <ValueGraphic>{`${graphPercentage}%`}</ValueGraphic>
-      </GraphicStyle>
+      </GraphicStyle> */}
+      <GraphicCircle percentage={graphPercentage} />
       <div>
         <InfoStyle>{children}</InfoStyle>
         <Container2Card>

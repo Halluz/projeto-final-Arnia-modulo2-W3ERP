@@ -1,5 +1,6 @@
 import { ReactNode } from 'react'
 import { Tab1TR, Tab1TD } from './style'
+import { Link } from 'react-router-dom'
 
 type TypeTab1Row = {
   cell1: number

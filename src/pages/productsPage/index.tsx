@@ -111,11 +111,45 @@ const vet2: TypeVet2[] = [
   }
 ]
 
+type TypeProductPageProducts = {
+  content: [
+    {
+      classificacao: 'EM_ALTA'
+      id: 0
+      nome: 'string'
+      percentual: 0
+    }
+  ]
+  empty: true
+  first: true
+  last: true
+  number: 0
+  numberOfElements: 0
+  pageable: {
+    offset: 0
+    pageNumber: 0
+    pageSize: 0
+    paged: true
+    sort: {
+      empty: true
+      sorted: true
+      unsorted: true
+    }
+    unpaged: true
+  }
+  size: 0
+  sort: {
+    empty: true
+    sorted: true
+    unsorted: true
+  }
+  totalElements: 0
+  totalPages: 0
+}
 export const ProductsPage = () => {
   return (
     <ContainerPage>
       <TitlePage>Produtos</TitlePage>
-
       <ContainerTable>
         <div>
           <SearchBar />
@@ -124,7 +158,7 @@ export const ProductsPage = () => {
           {vet2.map((element, index) => (
             <Table1Row
               key={`${index}${element.atributo1}`}
-              cell1={element.atributo1}
+              cell1={index}
               cell2={element.atributo2}
               cell3={<Status status={element.atributo3} />}
               cell4={
@@ -137,6 +171,27 @@ export const ProductsPage = () => {
           ))}
         </Table1>
       </ContainerTable>
+      {/* <ContainerTable>
+        <div>
+          <SearchBar />
+        </div>
+        <Table1 col1="ID" col2="Produtos" col3="Status" col4="Percentual">
+          {vet2.map((element, index) => (
+            <Table1Row
+              key={`${index}${element.atributo1}`}
+              cell1={index}
+              cell2={element.atributo2}
+              cell3={<Status status={element.atributo3} />}
+              cell4={
+                element.atributo4 > 0
+                  ? `+${element.atributo4}%`
+                  : `${element.atributo4}%`
+              }
+              lineHeight="8rem"
+            />
+          ))}
+        </Table1>
+      </ContainerTable> */}
     </ContainerPage>
   )
 }
