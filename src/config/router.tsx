@@ -10,12 +10,14 @@ import { ProductPage } from '@/pages/productPage'
 import { ClientPage } from '@/pages/clientPage'
 import { Mold } from '@/components/ui/mold'
 import { PredictionClientPage } from '@/pages/PredictionClientPage'
+import { NotAuthorized } from '@/pages/notAuthorized'
 
 export default function Router() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LoginPage />} />
+        <Route path="/naoautorizado" element={<NotAuthorized />} />
         <Route path="/mold" element={<Mold />}>
           <Route path="/mold/dashboardPage" element={<DashboardPage />} />
           <Route path="/mold/predicoesPage" element={<PredictionsPage />} />
@@ -24,8 +26,8 @@ export default function Router() {
             element={<PredictionClientPage />}
           />
           <Route path="/mold/productsPage" element={<ProductsPage />} />
-          <Route path="/mold/productPage" element={<ProductPage />} />
-          <Route path="/mold/clientPage" element={<ClientPage />} />
+          <Route path="/mold/productPage/:id" element={<ProductPage />} />
+          <Route path="/mold/clientPage/:id" element={<ClientPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

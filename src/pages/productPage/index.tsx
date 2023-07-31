@@ -9,7 +9,10 @@ import trendingIcon from '../../assets/images/icons/trending-up.svg'
 import { colors } from '@/assets/styles/colors'
 import { Back } from '@/components/ui/back'
 import { Table1Row } from '@/components/ui/table1Row'
-
+import { useEffect, useState } from 'react'
+import { autorization } from '@/config/services/functions'
+import { getClientsListOfProductPage } from '@/config/services/functions'
+import { useParams } from 'react-router-dom'
 const vet = [
   {
     atributo1: '001',
@@ -63,7 +66,28 @@ const vet = [
   }
 ]
 
+type TypeClientOfProductPage = {
+  id: number
+  nome: string
+  percentual: number
+  quantidade: number
+}
+
 export const ProductPage = () => {
+  const [clientsListEmBaixa, setClientsListEmBaixa] = useState<
+    TypeClientOfProductPage[]
+  >([])
+  const [clientsListEmAlta, setClientsListEmAlta] = useState<
+    TypeClientOfProductPage[]
+  >([])
+
+  useEffect(() => {
+    autorization()
+    const getClientsListOfProductPage2 = async () => {
+      const responseEmbaixa = await getClientsListOfProductPage()
+      setClientsListEmBaixa(responseEmbaixa)
+    }
+  }, [])
   return (
     <ContainerPage>
       <Back content="Detalhamento" />
@@ -80,8 +104,9 @@ export const ProductPage = () => {
           <Table1 col1="ID" col2="Cliente" col3="Percentual" col4="Qtd">
             {vet.map((element, index) => (
               <Table1Row
+                typeLink="client"
                 key={`${index}${element.atributo1}`}
-                cell1={element.atributo1}
+                cell1={index}
                 cell2={element.atributo2}
                 cell3={
                   element.atributo3 > 0
@@ -104,8 +129,9 @@ export const ProductPage = () => {
           <Table1 col1="ID" col2="Cliente" col3="Percentual" col4="Qtd">
             {vet.map((element, index) => (
               <Table1Row
+                typeLink="client"
                 key={`${index}${element.atributo1}`}
-                cell1={element.atributo1}
+                cell1={index}
                 cell2={element.atributo2}
                 cell3={
                   element.atributo3 > 0

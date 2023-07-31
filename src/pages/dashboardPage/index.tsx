@@ -10,6 +10,7 @@ import { Table1Row } from '@/components/ui/table1Row'
 import { ButtonToggle } from '@/components/ui/buttonToggle'
 import { useState, useEffect } from 'react'
 import {
+  autorization,
   getDashboardClientsList,
   getDashboardProductsList
 } from '@/config/services/functions'
@@ -99,6 +100,7 @@ export const DashboardPage = () => {
   }, [statusClients])
 
   useEffect(() => {
+    autorization()
     const getDashboardProductsList2 = async () => {
       const response = await getDashboardProductsList(statusProducts)
       setProductsList(response)
@@ -125,6 +127,7 @@ export const DashboardPage = () => {
           <Table1 col1="ID" col2="Produto" col3="Percentual" col4="">
             {productsList.map((element, index) => (
               <Table1Row
+                typeLink="product"
                 key={`${index}${element.id}`}
                 cell1={element.id}
                 cell2={element.nome}
@@ -150,6 +153,7 @@ export const DashboardPage = () => {
           <Table1 col1="ID" col2="Cliente" col3="Percentual" col4="">
             {clientsList.map((element, index) => (
               <Table1Row
+                typeLink="client"
                 key={`${index}${element.id}`}
                 cell1={element.id}
                 cell2={element.nome}

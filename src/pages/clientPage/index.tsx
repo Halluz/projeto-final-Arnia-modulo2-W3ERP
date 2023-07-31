@@ -7,6 +7,8 @@ import trendingIcon from '../../assets/images/icons/trending-up.svg'
 import { colors } from '@/assets/styles/colors'
 import { Back } from '@/components/ui/back'
 import { Table1Row } from '@/components/ui/table1Row'
+import { useEffect } from 'react'
+import { autorization } from '@/config/services/functions'
 
 const vet = [
   {
@@ -62,6 +64,10 @@ const vet = [
 ]
 
 export const ClientPage = () => {
+  useEffect(() => {
+    autorization()
+  }, [])
+
   return (
     <ContainerPage>
       <Back content="Detalhamento" />
@@ -78,8 +84,9 @@ export const ClientPage = () => {
           <Table1 col1="ID" col2="Produto" col3="Percentual" col4="Qtd">
             {vet.map((element, index) => (
               <Table1Row
+                typeLink="product"
                 key={`${index}${element.atributo1}`}
-                cell1={element.atributo1}
+                cell1={index}
                 cell2={element.atributo2}
                 cell3={
                   element.atributo3 > 0
@@ -102,8 +109,9 @@ export const ClientPage = () => {
           <Table1 col1="ID" col2="Produto" col3="Percentual" col4="Qtd">
             {vet.map((element, index) => (
               <Table1Row
+                typeLink="product"
                 key={`${index}${element.atributo1}`}
-                cell1={element.atributo1}
+                cell1={index}
                 cell2={element.atributo2}
                 cell3={
                   element.atributo3 > 0

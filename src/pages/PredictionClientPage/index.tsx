@@ -12,6 +12,8 @@ import { Table3 } from '@/components/ui/table3'
 import { Table3Row } from '@/components/ui/table3Row'
 import { CheckOneComponent } from '@/components/ui/checkOne'
 import { PanelPrediction } from '@/components/ui/panelPredictionClientPage'
+import { useEffect } from 'react'
+import { autorization } from '@/config/services/functions'
 
 const vet1 = [
   {
@@ -178,6 +180,9 @@ const vet2 = [
 ]
 
 export const PredictionClientPage = () => {
+  useEffect(() => {
+    autorization()
+  }, [])
   return (
     <ContainerPage>
       <Back content="Detalhamento" />

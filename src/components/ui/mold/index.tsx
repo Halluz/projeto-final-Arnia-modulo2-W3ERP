@@ -2,10 +2,33 @@ import { Header } from '../header'
 import { Container, RightSide, MenusBackgroundSpace } from './style'
 import { Sidebar } from '../sidebar'
 import { Outlet } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { getUserMe } from '@/config/services/functions'
+
+type UserMe = {
+  email: string
+  id: number
+  nome: string
+  papel: string
+}
 
 export const Mold = () => {
   const [compresssidebar, setcompresssidebar] = useState(false)
+  const [userMe, setUserMe] = useState<UserMe>({
+    email: 'Anonimo@gmail.com',
+    id: 0,
+    nome: 'Anonimo',
+    papel: 'ADMINISTRADOR'
+  })
+
+  useEffect(() => {
+    const getUserMe2 = async () => {
+      const response = await getUserMe()
+      console.log(response)
+      setUserMe(response)
+    }
+    getUserMe2()
+  }, [])
 
   return (
     <Container>
@@ -16,8 +39,8 @@ export const Mold = () => {
       <RightSide>
         <Header
           compresssidebar={compresssidebar}
-          name="Rafel Pimenta"
-          email="rafael@gmail.com"
+          name={userMe.nome}
+          email={userMe.email}
         />
         {/* conteúdo */}
         <MenusBackgroundSpace compresssidebar={compresssidebar}>

@@ -22,7 +22,7 @@ export const ContainerTable = styled.div`
   padding: 3.2rem;
   border-radius: 3rem;
   box-shadow: 0rem 0rem 2rem rgb(1, 1, 1, 0.5);
-  overflow-x: auto; /* Rolagem lateral da tabela somente se necessário (responsividade)*/
+  overflow: auto; /* Rolagem lateral da tabela somente se necessário (responsividade)*/
 
   & > div {
     width: 100%;

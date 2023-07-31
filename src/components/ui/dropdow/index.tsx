@@ -7,6 +7,7 @@ import {
 } from './style'
 import settingsLogo from '../../../assets/images/icons/setting-Image.svg'
 import logout from '../../../assets/images/icons/logoutImage.svg'
+import { logOut } from '@/config/services/functions'
 import { colors } from '@/assets/styles/colors'
 import dropdownImage from '../../../assets/images/icons/downArrow.svg'
 
@@ -44,7 +45,7 @@ const Dropdown: React.FC = () => {
           <img src={settingsLogo} alt="Logo Engrenagem" /> Configurações
         </DropdownMenuItem>
         <hr style={{ border: `1px solid ${colors.grey100}` }} />
-        <DropdownMenuItem onClick={event => logOut(event)}>
+        <DropdownMenuItem onClick={() => logOut()}>
           <img src={logout} alt="Logo Sair" /> Sair
         </DropdownMenuItem>
       </DropdownMenu>

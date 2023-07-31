@@ -147,3 +147,85 @@ export const getInfoPanelDashboard = async () => {
     }
   }
 }
+
+export const getUserMe = async () => {
+  try {
+    const response = await axios.get(
+      'https://api.predict.app.br/central/usuario/me',
+      {
+        headers: {
+          'X-TENANT-ID': 'arnia',
+          'Content-Type': 'application/json',
+          Authorization: `${localStorage.getItem(
+            'type'
+          )} ${localStorage.getItem('token')}`
+        }
+      }
+    )
+    console.log('UserMe: ', response)
+    return response.data
+  } catch (error) {
+    console.log('Ocorreu um erro: ', error)
+
+    if (isAxiosError(error)) {
+      //narrowing (seleção) para o tipo de erro Axios
+      if (error.response?.status === 401) {
+        throw new Error('Operação não autorizada')
+      }
+      if (error.response?.status === 403) {
+        throw new Error('Usuário não tem permissão de acesso')
+      }
+      if (error.response?.status === 404) {
+        throw new Error('Página não encontrada')
+      }
+    }
+  }
+}
+
+export const logOut = () => {
+  localStorage.removeItem('type')
+  localStorage.removeItem('token')
+  if (
+    localStorage.getItem('type') === null ||
+    localStorage.getItem('token') === null
+  ) {
+    window.location.href = `/`
+  }
+}
+
+export const autorization = () => {
+  if (
+    localStorage.getItem('type') === null ||
+    localStorage.getItem('token') === null ||
+    localStorage.getItem('type') === '' ||
+    localStorage.getItem('token') === ''
+  ) {
+    window.location.href = `/naoautorizado`
+  }
+}
+
+export const getClientsListOfProductPage = (
+  idProduct: number,
+  classification: 'EM_ALTA' | 'EM_BAIXA' | 'NEUTRO'
+) => {
+  try {
+    const response = instance.get(
+      `app/produto/${idProduct}/clientes?classification=${classification}`
+    )
+  } catch (error) {
+    console.log('Ocorreu um erro: ', error)
+
+    if (isAxiosError(error)) {
+      //narrowing (seleção) para o tipo de erro Axios
+      if (error.response?.status === 401) {
+        throw new Error('Operação não autorizada')
+      }
+      if (error.response?.status === 403) {
+        throw new Error('Usuário não tem permissão de acesso')
+      }
+      if (error.response?.status === 404) {
+        throw new Error('Página não encontrada')
+      }
+    }
+  }
+}

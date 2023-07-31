@@ -4,6 +4,8 @@ import { SearchBar } from '@/components/ui/searchBar'
 import { Table1Row } from '@/components/ui/table1Row'
 import { Status, TypeStatus } from '@/components/ui/status'
 import Button2 from '@/components/ui/button-copy'
+import { useEffect } from 'react'
+import { autorization } from '@/config/services/functions'
 
 type TypeVet2 = {
   atributo1: string
@@ -147,6 +149,9 @@ type TypeProductPageProducts = {
   totalPages: 0
 }
 export const ProductsPage = () => {
+  useEffect(() => {
+    autorization()
+  }, [])
   return (
     <ContainerPage>
       <TitlePage>Produtos</TitlePage>
@@ -157,6 +162,7 @@ export const ProductsPage = () => {
         <Table1 col1="ID" col2="Produtos" col3="Status" col4="Percentual">
           {vet2.map((element, index) => (
             <Table1Row
+              typeLink="product"
               key={`${index}${element.atributo1}`}
               cell1={index}
               cell2={element.atributo2}

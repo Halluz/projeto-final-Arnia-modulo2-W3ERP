@@ -12,6 +12,8 @@ import {
   TypeTableRowCardPredition
 } from '@/components/ui/TableRowCardPrediction'
 import { TableCardPrediction } from '@/components/ui/TableCardPrediction'
+import { useEffect } from 'react'
+import { autorization } from '@/config/services/functions'
 
 type TypeMocadoProduct = {
   productName: string
@@ -306,6 +308,9 @@ const vet2: TypeMocadoPredictionsClientCard[] = [
 ]
 
 export const PredictionsPage = () => {
+  useEffect(() => {
+    autorization()
+  }, [])
   return (
     <ContainerPage>
       <TitlePage>Predições</TitlePage>

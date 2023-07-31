@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { colors } from '@/assets/styles/colors'
+import { Link } from 'react-router-dom'
 
 export const Tab1TR = styled.tr<{ lineHeight: string | undefined }>`
   height: ${({ lineHeight }) =>
@@ -16,7 +17,11 @@ export const Tab1TR = styled.tr<{ lineHeight: string | undefined }>`
   } */
 `
 
-export const Tab1TH = styled.th``
+export const LinkRow = styled(Link)`
+  text-decoration: none;
+  font-family: 'Poppins', sans-serif;
+  color: ${colors.grey900};
+`
 
 export const Tab1TD = styled.td`
   color: ${colors.grey900};
