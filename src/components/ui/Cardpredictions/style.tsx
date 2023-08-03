@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { colors } from '@/assets/styles/colors'
+import { Link } from 'react-router-dom'
 
 export const ContainerCardPrediction = styled.div`
   width: 34.7rem;
@@ -50,6 +51,24 @@ export const Item = styled.li<{ status: 'EM_ALTA' | 'EM_BAIXA' | 'NEUTRO' }>`
   align-items: center;
 `
 
+export const Circle = styled.div`
+  background-color: ${colors.azul4};
+  width: 4.8rem;
+  height: 4.8rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+export const LinkCardPrediction = styled(Link)`
+  text-decoration: none;
+  &:hover {
+    font-weight: 700;
+    border: 0.2rem solid ${colors.azul4};
+    border-radius: 1rem;
+  }
+`
+
 export const MarkerStyle = styled.img<{
   status: 'EM_ALTA' | 'EM_BAIXA' | 'NEUTRO'
 }>`
@@ -59,14 +78,4 @@ export const MarkerStyle = styled.img<{
       : status === 'EM_BAIXA'
       ? `${colors.error}`
       : `${colors.grey500}`}; //hue-rotate(180);
-`
-
-export const Circle = styled.div`
-  background-color: ${colors.azul4};
-  width: 4.8rem;
-  height: 4.8rem;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `

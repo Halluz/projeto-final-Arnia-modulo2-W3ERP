@@ -12,8 +12,11 @@ import {
   TypeTableRowCardPredition
 } from '@/components/ui/TableRowCardPrediction'
 import { TableCardPrediction } from '@/components/ui/TableCardPrediction'
-import { useEffect } from 'react'
-import { autorization } from '@/config/services/functions'
+import { useEffect, useState } from 'react'
+import {
+  autorization,
+  getPredictionsPageAPI
+} from '@/config/services/functions'
 
 type TypeMocadoProduct = {
   productName: string
@@ -307,9 +310,112 @@ const vet2: TypeMocadoPredictionsClientCard[] = [
   }
 ]
 
+export type TypeProductTableCardPreditions = {
+  id: number
+  nome: string
+  proximaCompra: string
+}
+
+export type TypeCardPredictions = {
+  classificacao: 'EM_ALTA' | 'EM_BAIXA' | 'NEUTRO'
+  email: string
+  id: number
+  nome: string
+  percentual: number
+  produtos: TypeProductTableCardPreditions[]
+  telefone: string
+  whatsapp: string
+}
+
+export type TypePredictionsPageAPI = {
+  content: TypeCardPredictions[]
+  empty: boolean
+  first: boolean
+  last: boolean
+  number: number
+  numberOfElements: number
+  pageable: {
+    offset: number
+    pageNumber: number
+    pageSize: number
+    paged: boolean
+    sort: {
+      empty: boolean
+      sorted: boolean
+      unsorted: boolean
+    }
+    unpaged: boolean
+  }
+  size: number
+  sort: {
+    empty: boolean
+    sorted: boolean
+    unsorted: boolean
+  }
+  totalElements: number
+  totalPages: number
+}
+
+const initial: TypePredictionsPageAPI = {
+  content: [
+    {
+      classificacao: 'NEUTRO',
+      email: 'Anônimo@anonimo.com',
+      id: 0,
+      nome: 'Anônimo',
+      percentual: 0,
+      produtos: [
+        {
+          id: 0,
+          nome: 'string',
+          proximaCompra: 'string'
+        }
+      ],
+      telefone: 'string',
+      whatsapp: 'string'
+    }
+  ],
+  empty: true,
+  first: true,
+  last: true,
+  number: 0,
+  numberOfElements: 0,
+  pageable: {
+    offset: 0,
+    pageNumber: 0,
+    pageSize: 0,
+    paged: true,
+    sort: {
+      empty: true,
+      sorted: true,
+      unsorted: true
+    },
+    unpaged: true
+  },
+  size: 0,
+  sort: {
+    empty: true,
+    sorted: true,
+    unsorted: true
+  },
+  totalElements: 0,
+  totalPages: 0
+}
+
 export const PredictionsPage = () => {
+  const [responsePredictionsPage, setResponsePreditionsPage] =
+    useState<TypePredictionsPageAPI>(initial)
+  const [vetCardPredictions, setVetCardPredictions] = useState<
+    TypeCardPredictions[]
+  >([])
   useEffect(() => {
     autorization()
+    const getPredictionsPageAPI2 = async () => {
+      const response = await getPredictionsPageAPI()
+      setResponsePreditionsPage(response)
+      setVetCardPredictions(response.content)
+    }
+    getPredictionsPageAPI2()
   }, [])
   return (
     <ContainerPage>
@@ -318,7 +424,25 @@ export const PredictionsPage = () => {
         <SearchBar />
       </DivHeader>
       <ContainerCardsPrediction>
-        {vet2.map((element, index) => (
+        {vetCardPredictions.map((element, index) => (
+          <CardPredictions
+            key={`${index}${element.id}`}
+            clientName={element.nome}
+            clientStatus={element.classificacao}
+          >
+            <TableCardPrediction col1Name="Produto" col2Name="Prox. compra">
+              {element.produtos.map((product, index) => (
+                <TableRowCardPrediction
+                  key={`${index}${product.id}`}
+                  cell1={product.nome}
+                  cell2={product.proximaCompra}
+                />
+              ))}
+            </TableCardPrediction>
+          </CardPredictions>
+        ))}
+
+        {/* {vet2.map((element, index) => (
           <CardPredictions
             key={`${index}${element.clientName}`}
             clientName={element.clientName}
@@ -334,7 +458,7 @@ export const PredictionsPage = () => {
               ))}
             </TableCardPrediction>
           </CardPredictions>
-        ))}
+        ))} */}
       </ContainerCardsPrediction>
     </ContainerPage>
   )
