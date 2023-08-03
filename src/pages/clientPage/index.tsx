@@ -7,8 +7,14 @@ import trendingIcon from '../../assets/images/icons/trending-up.svg'
 import { colors } from '@/assets/styles/colors'
 import { Back } from '@/components/ui/back'
 import { Table1Row } from '@/components/ui/table1Row'
-import { useEffect } from 'react'
-import { autorization } from '@/config/services/functions'
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import {
+  TypeResumePanelPageProductOrPageClient,
+  autorization,
+  getProductsListOfClientPage
+} from '@/config/services/functions'
+import { getResumeClientPage } from '@/config/services/functions'
 
 const vet = [
   {
@@ -63,15 +69,50 @@ const vet = [
   }
 ]
 
+export type TypeProductOfClientPage = {
+  id: number
+  nome: string
+  percentual: number
+  quantidade: number
+}
+
 export const ClientPage = () => {
+  const [resume, setResume] = useState<TypeResumePanelPageProductOrPageClient>({
+    media120Dias: 0,
+    nome: 'Anônimo',
+    percentualUltimos30Dias: 0,
+    ultimos120Dias: 0,
+    ultimos30Dias: 0,
+    ultimos60Dias: 0,
+    ultimos90Dias: 0
+  })
+  const [productsListEmBaixa, setProductsListEmBaixa] = useState<
+    TypeProductOfClientPage[]
+  >([])
+  const [productsListEmAlta, setProductsLlistEmAlta] = useState<
+    TypeProductOfClientPage[]
+  >([])
+  const { idClient } = useParams()
+
   useEffect(() => {
     autorization()
+    const getProductsListOfClientPage2 = async () => {
+      const resumeClientPage = await getResumeClientPage(idClient)
+      setResume(resumeClientPage)
+
+      const responseEmBaixa = await getProductsListOfClientPage(
+        idClient,
+        'EM_BAIXA'
+      )
+      setProductsListEmBaixa(responseEmBaixa)
+    }
+    getProductsListOfClientPage2()
   }, [])
 
   return (
     <ContainerPage>
       <Back content="Detalhamento" />
-      <Panel panelTitle="Nome do Cliente" />
+      <Panel resume={resume} />
       <ContainerTables>
         <ContainerTable>
           <div>
@@ -82,7 +123,22 @@ export const ClientPage = () => {
             />
           </div>
           <Table1 col1="ID" col2="Produto" col3="Percentual" col4="Qtd">
-            {vet.map((element, index) => (
+            {productsListEmBaixa.map((element, index) => (
+              <Table1Row
+                typeLink="product"
+                key={`${index}${element.id}`}
+                cell1={element.id}
+                cell2={element.nome}
+                cell3={
+                  element.percentual > 0
+                    ? `+${element.percentual}%`
+                    : `${element.percentual}%`
+                }
+                cell4={element.quantidade}
+              />
+            ))}
+
+            {/* {vet.map((element, index) => (
               <Table1Row
                 typeLink="product"
                 key={`${index}${element.atributo1}`}
@@ -95,7 +151,7 @@ export const ClientPage = () => {
                 }
                 cell4={index + 10}
               />
-            ))}
+            ))} */}
           </Table1>
         </ContainerTable>
         <ContainerTable>
@@ -107,7 +163,22 @@ export const ClientPage = () => {
             />
           </div>
           <Table1 col1="ID" col2="Produto" col3="Percentual" col4="Qtd">
-            {vet.map((element, index) => (
+            {productsListEmAlta.map((element, index) => (
+              <Table1Row
+                typeLink="product"
+                key={`${index}${element.id}`}
+                cell1={element.id}
+                cell2={element.nome}
+                cell3={
+                  element.percentual > 0
+                    ? `+${element.percentual}%`
+                    : `${element.percentual}%`
+                }
+                cell4={element.quantidade}
+              />
+            ))}
+
+            {/* {vet.map((element, index) => (
               <Table1Row
                 typeLink="product"
                 key={`${index}${element.atributo1}`}
@@ -120,7 +191,7 @@ export const ClientPage = () => {
                 }
                 cell4={index + 10}
               />
-            ))}
+            ))} */}
           </Table1>
         </ContainerTable>
       </ContainerTables>

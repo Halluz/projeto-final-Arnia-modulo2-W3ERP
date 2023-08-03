@@ -4,7 +4,7 @@ import { CalendarButton } from '../calendarButton'
 import { useEffect, useState } from 'react'
 import { getInfoPanelDashboard } from '@/config/services/functions'
 
-type TypePanelDashboard = {
+export type TypePanelDashboard = {
   percentualTotalClientesAlta: number
   percentualTotalClientesBaixa: number
   percentualTotalProdutosAlta: number

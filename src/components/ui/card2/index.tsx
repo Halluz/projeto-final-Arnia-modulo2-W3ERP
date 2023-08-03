@@ -7,8 +7,8 @@ import {
 
 type TypeCard2 = {
   info: string
-  quantity: number
-  variation: number
+  quantity?: number
+  // variation: number
   backgroundCard2: string
   colorInfoCard2: string
   colorQuantityCard2: string
@@ -16,7 +16,7 @@ type TypeCard2 = {
 
 export const Card2 = ({
   quantity,
-  variation,
+  // variation,
   backgroundCard2,
   info,
   colorInfoCard2,
@@ -29,9 +29,9 @@ export const Card2 = ({
         <QuantityStyle colorQuantity={colorQuantityCard2}>
           {quantity}
         </QuantityStyle>
-        <VariationStyled backgroundVariation={variation > 0}>
+        {/* <VariationStyled backgroundVariation={variation > 0}>
           {variation > 0 ? `+${variation}%` : `${variation}%`}
-        </VariationStyled>
+        </VariationStyled> */}
       </div>
     </ContainerCard>
   )

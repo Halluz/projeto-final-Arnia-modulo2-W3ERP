@@ -10,9 +10,11 @@ import { colors } from '@/assets/styles/colors'
 import { Back } from '@/components/ui/back'
 import { Table1Row } from '@/components/ui/table1Row'
 import { useEffect, useState } from 'react'
-import { autorization } from '@/config/services/functions'
+import { autorization, getResumeProductPage } from '@/config/services/functions'
 import { getClientsListOfProductPage } from '@/config/services/functions'
 import { useParams } from 'react-router-dom'
+import { TypeResumePanelPageProductOrPageClient } from '@/config/services/functions'
+
 const vet = [
   {
     atributo1: '001',
@@ -66,7 +68,7 @@ const vet = [
   }
 ]
 
-type TypeClientOfProductPage = {
+export type TypeClientOfProductPage = {
   id: number
   nome: string
   percentual: number
@@ -80,18 +82,55 @@ export const ProductPage = () => {
   const [clientsListEmAlta, setClientsListEmAlta] = useState<
     TypeClientOfProductPage[]
   >([])
+  const { idProduct } = useParams() //captura o idProduct da url
+
+  const [resumo, setResumo] = useState<
+    TypeResumePanelPageProductOrPageClient | undefined
+  >({
+    media120Dias: 0,
+    nome: 'Anônimo',
+    percentualUltimos30Dias: 0,
+    ultimos120Dias: 0,
+    ultimos30Dias: 0,
+    ultimos60Dias: 0,
+    ultimos90Dias: 0
+  })
+  // const [stateIdProduct, setStateIdProduct] = useState<string | undefined>('')
+  /* {
+    media120Dias: 0,
+    nome: 'Anônimo',
+    percentualUltimos30Dias: 0,
+    ultimos120Dias: 0,
+    ultimos30Dias: 0,
+    ultimos60Dias: 0,
+    ultimos90Dias: 0
+  } */
 
   useEffect(() => {
     autorization()
+    // setStateIdProduct(idProduct)
     const getClientsListOfProductPage2 = async () => {
-      const responseEmbaixa = await getClientsListOfProductPage()
+      const resumoProductPage = await getResumeProductPage(idProduct)
+      setResumo(resumoProductPage)
+
+      const responseEmbaixa = await getClientsListOfProductPage(
+        idProduct,
+        'EM_BAIXA'
+      )
       setClientsListEmBaixa(responseEmbaixa)
+
+      const responseEmAlta = await getClientsListOfProductPage(
+        idProduct,
+        'EM_ALTA'
+      )
+      setClientsListEmAlta(responseEmAlta)
     }
+    getClientsListOfProductPage2()
   }, [])
   return (
     <ContainerPage>
       <Back content="Detalhamento" />
-      <Panel panelTitle="Nome do Produto" />
+      <Panel resume={resumo} />
       <ContainerTables>
         <ContainerTable>
           <div>
@@ -102,7 +141,22 @@ export const ProductPage = () => {
             />
           </div>
           <Table1 col1="ID" col2="Cliente" col3="Percentual" col4="Qtd">
-            {vet.map((element, index) => (
+            {clientsListEmBaixa.map((element, index) => (
+              <Table1Row
+                typeLink="client"
+                key={`${index}${element.id}`}
+                cell1={element.id}
+                cell2={element.nome}
+                cell3={
+                  element.percentual > 0
+                    ? `+${element.percentual}%`
+                    : `${element.percentual}%`
+                }
+                cell4={element.quantidade}
+              />
+            ))}
+
+            {/* {vet.map((element, index) => (
               <Table1Row
                 typeLink="client"
                 key={`${index}${element.atributo1}`}
@@ -115,7 +169,7 @@ export const ProductPage = () => {
                 }
                 cell4={index + 10}
               />
-            ))}
+            ))} */}
           </Table1>
         </ContainerTable>
         <ContainerTable>
@@ -127,7 +181,21 @@ export const ProductPage = () => {
             />
           </div>
           <Table1 col1="ID" col2="Cliente" col3="Percentual" col4="Qtd">
-            {vet.map((element, index) => (
+            {clientsListEmAlta.map((element, index) => (
+              <Table1Row
+                typeLink="client"
+                key={`${index}${element.id}`}
+                cell1={element.id}
+                cell2={element.nome}
+                cell3={
+                  element.percentual > 0
+                    ? `+${element.percentual}%`
+                    : `${element.percentual}%`
+                }
+                cell4={element.quantidade}
+              />
+            ))}
+            {/* {vet.map((element, index) => (
               <Table1Row
                 typeLink="client"
                 key={`${index}${element.atributo1}`}
@@ -140,7 +208,7 @@ export const ProductPage = () => {
                 }
                 cell4={index + 10}
               />
-            ))}
+            ))} */}
           </Table1>
         </ContainerTable>
       </ContainerTables>

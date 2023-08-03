@@ -3,9 +3,11 @@ import { Table1 } from '@/components/ui/table1'
 import { SearchBar } from '@/components/ui/searchBar'
 import { Table1Row } from '@/components/ui/table1Row'
 import { Status, TypeStatus } from '@/components/ui/status'
-import Button2 from '@/components/ui/button-copy'
-import { useEffect } from 'react'
-import { autorization } from '@/config/services/functions'
+import { useEffect, useState } from 'react'
+import {
+  autorization,
+  getProductsListOfPageProducts
+} from '@/config/services/functions'
 
 type TypeVet2 = {
   atributo1: string
@@ -113,44 +115,25 @@ const vet2: TypeVet2[] = [
   }
 ]
 
-type TypeProductPageProducts = {
-  content: [
-    {
-      classificacao: 'EM_ALTA'
-      id: 0
-      nome: 'string'
-      percentual: 0
-    }
-  ]
-  empty: true
-  first: true
-  last: true
-  number: 0
-  numberOfElements: 0
-  pageable: {
-    offset: 0
-    pageNumber: 0
-    pageSize: 0
-    paged: true
-    sort: {
-      empty: true
-      sorted: true
-      unsorted: true
-    }
-    unpaged: true
-  }
-  size: 0
-  sort: {
-    empty: true
-    sorted: true
-    unsorted: true
-  }
-  totalElements: 0
-  totalPages: 0
+export type TypeProductOfPageProducts = {
+  classificacao: 'EM_ALTA' | 'EM_BAIXA' | 'NEUTRO'
+  id: number
+  nome: string
+  percentual: number
 }
+
 export const ProductsPage = () => {
+  const [productsList, setProductsList] = useState<TypeProductOfPageProducts[]>(
+    []
+  )
+
   useEffect(() => {
     autorization()
+    const getProductsListOfPageProducts2 = async () => {
+      const responseProductsList = await getProductsListOfPageProducts()
+      setProductsList(responseProductsList)
+    }
+    getProductsListOfPageProducts2()
   }, [])
   return (
     <ContainerPage>
@@ -160,7 +143,23 @@ export const ProductsPage = () => {
           <SearchBar />
         </div>
         <Table1 col1="ID" col2="Produtos" col3="Status" col4="Percentual">
-          {vet2.map((element, index) => (
+          {productsList.map((element, index) => (
+            <Table1Row
+              typeLink="product"
+              key={`${index}${element.id}`}
+              cell1={element.id}
+              cell2={element.nome}
+              cell3={<Status status={element.classificacao} />}
+              cell4={
+                element.percentual > 0
+                  ? `+${element.percentual}%`
+                  : `${element.percentual}%`
+              }
+              lineHeight="8rem"
+            />
+          ))}
+
+          {/* {vet2.map((element, index) => (
             <Table1Row
               typeLink="product"
               key={`${index}${element.atributo1}`}
@@ -174,7 +173,7 @@ export const ProductsPage = () => {
               }
               lineHeight="8rem"
             />
-          ))}
+          ))} */}
         </Table1>
       </ContainerTable>
       {/* <ContainerTable>

@@ -1,8 +1,13 @@
-import axios, { isAxiosError } from 'axios'
+import { TypePanelDashboard } from '@/components/ui/panelDashboard'
+import { TypeProductOfClientPage } from '@/pages/clientPage'
 import {
   TypeClientDashboard,
   TypeProductDashboard
 } from '@/pages/dashboardPage'
+import { TypeClientOfProductPage } from '@/pages/productPage'
+import { TypeProductOfPageProducts } from '@/pages/productsPage'
+import axios, { isAxiosError } from 'axios'
+
 export const instance = axios.create({
   baseURL: 'https://api.predict.app.br/',
   headers: {
@@ -22,9 +27,21 @@ export const instanceLogin = axios.create({
   }
 })
 
-type TypeLogin = {
+export type TypeResumePanelPageProductOrPageClient = {
+  media120Dias?: number
+  nome?: string
+  percentualUltimos30Dias?: number
+  ultimos30Dias?: number
+  ultimos60Dias?: number
+  ultimos90Dias?: number
+  ultimos120Dias?: number
+}
+
+export type UserMe = {
   email: string
-  senha: string
+  id: number
+  nome: string
+  papel: string
 }
 
 export const toLog = async (email: string, password: string) => {
@@ -63,16 +80,14 @@ export const toLog = async (email: string, password: string) => {
 
 export const getDashboardClientsList = async (
   classification: 'EM_ALTA' | 'EM_BAIXA' | 'NEUTRO'
-) => {
+): Promise<TypeClientDashboard[]> => {
   try {
     const response = await instance.get(
       `/app/dashboard/clientes?&classificacao=${classification}`
     )
-    if (response.status === 200) {
-      console.log('RespostaAPI status 200: ', response.data)
-      return response.data
-    }
-    return response
+    console.log('RespostaAPI status 200: ', response.data)
+    return response.data
+
     console.log(response)
   } catch (error) {
     console.log('Ocorreu um erro: ', error)
@@ -89,21 +104,19 @@ export const getDashboardClientsList = async (
         throw new Error('Página não encontrada')
       }
     }
+    throw new Error('Página em manutenção.')
   }
 }
 
 export const getDashboardProductsList = async (
   classification: 'EM_ALTA' | 'EM_BAIXA' | 'NEUTRO'
-) => {
+): Promise<TypeProductDashboard[]> => {
   try {
     const response = await instance.get(
       `/app/dashboard/produtos?&classificacao=${classification}`
     )
-    if (response.status === 200) {
-      console.log('RespostaAPI status 200: ', response.data)
-      return response.data
-    }
-    return response
+    console.log('RespostaAPI status 200: ', response.data)
+    return response.data
     console.log(response)
   } catch (error) {
     console.log('Ocorreu um erro: ', error)
@@ -120,16 +133,14 @@ export const getDashboardProductsList = async (
         throw new Error('Página não encontrada')
       }
     }
+    throw new Error('Página em manutenção.')
   }
 }
 
-export const getInfoPanelDashboard = async () => {
+export const getInfoPanelDashboard = async (): Promise<TypePanelDashboard> => {
   try {
     const response = await instance.get('/app/dashboard/resumo')
-    if (response.status === 200) {
-      return response.data
-    }
-    return response
+    return response.data
   } catch (error) {
     console.log('Ocorreu um erro: ', error)
 
@@ -145,10 +156,11 @@ export const getInfoPanelDashboard = async () => {
         throw new Error('Página não encontrada')
       }
     }
+    throw new Error('Página não encontrada.')
   }
 }
 
-export const getUserMe = async () => {
+export const getUserMe = async (): Promise<UserMe> => {
   try {
     const response = await axios.get(
       'https://api.predict.app.br/central/usuario/me',
@@ -179,6 +191,7 @@ export const getUserMe = async () => {
         throw new Error('Página não encontrada')
       }
     }
+    throw new Error('Página em manutenção.')
   }
 }
 
@@ -204,14 +217,13 @@ export const autorization = () => {
   }
 }
 
-export const getClientsListOfProductPage = (
-  idProduct: number,
-  classification: 'EM_ALTA' | 'EM_BAIXA' | 'NEUTRO'
-) => {
+export const getResumeProductPage = async (
+  idProduct: string | undefined
+): Promise<TypeResumePanelPageProductOrPageClient | undefined> => {
   try {
-    const response = instance.get(
-      `app/produto/${idProduct}/clientes?classification=${classification}`
-    )
+    const response = await instance.get(`/app/produto/${idProduct}/resumo`)
+    console.log(response)
+    return response.data
   } catch (error) {
     console.log('Ocorreu um erro: ', error)
 
@@ -227,5 +239,114 @@ export const getClientsListOfProductPage = (
         throw new Error('Página não encontrada')
       }
     }
+    throw new Error('Página em manutenção.')
+  }
+}
+
+export const getClientsListOfProductPage = async (
+  idProduct: string | undefined,
+  classification: 'EM_ALTA' | 'EM_BAIXA' | 'NEUTRO'
+): Promise<TypeClientOfProductPage[]> => {
+  try {
+    const response = await instance.get(
+      `/app/produto/${idProduct}/clientes?classificacao=${classification}`
+    )
+    console.log('Página Produto', response)
+    return response.data
+  } catch (error) {
+    console.log('Ocorreu um erro: ', error)
+
+    if (isAxiosError(error)) {
+      //narrowing (seleção) para o tipo de erro Axios
+      if (error.response?.status === 401) {
+        throw new Error('Operação não autorizada')
+      }
+      if (error.response?.status === 403) {
+        throw new Error('Usuário não tem permissão de acesso')
+      }
+      if (error.response?.status === 404) {
+        throw new Error('Página não encontrada')
+      }
+    }
+    throw new Error('Página em manutenção')
+  }
+}
+
+export const getResumeClientPage = async (
+  idClient: string | undefined
+): Promise<TypeResumePanelPageProductOrPageClient> => {
+  try {
+    const response = await instance.get(`/app/cliente/${idClient}/resumo`)
+    console.log('Resumo do painel da págian de Cliente: ', response.data)
+    return response.data
+  } catch (error) {
+    console.log('Ocorreu um erro: ', error)
+
+    if (isAxiosError(error)) {
+      //narrowing (seleção) para o tipo de erro Axios
+      if (error.response?.status === 401) {
+        throw new Error('Operação não autorizada')
+      }
+      if (error.response?.status === 403) {
+        throw new Error('Usuário não tem permissão de acesso')
+      }
+      if (error.response?.status === 404) {
+        throw new Error('Página não encontrada')
+      }
+    }
+    throw new Error('Página em manutenção.')
+  }
+}
+
+export const getProductsListOfClientPage = async (
+  idClient: string | undefined,
+  classification: 'EM_ALTA' | 'EM_BAIXA' | 'NEUTRO'
+): Promise<TypeProductOfClientPage[]> => {
+  try {
+    const response = await instance.get(
+      `/app/cliente/${idClient}/produtos?classificacao=${classification}`
+    )
+    return response.data
+  } catch (error) {
+    console.log('Ocorreu um erro: ', error)
+
+    if (isAxiosError(error)) {
+      //narrowing (seleção) para o tipo de erro Axios
+      if (error.response?.status === 401) {
+        throw new Error('Operação não autorizada')
+      }
+      if (error.response?.status === 403) {
+        throw new Error('Usuário não tem permissão de acesso')
+      }
+      if (error.response?.status === 404) {
+        throw new Error('Página não encontrada')
+      }
+    }
+    throw new Error('Página em manutenção.')
+  }
+}
+
+export const getProductsListOfPageProducts = async (): Promise<
+  TypeProductOfPageProducts[]
+> => {
+  try {
+    const response = await instance.get(`/app/produto`)
+    return response.data.content
+  } catch (error) {
+    console.log('Ocorreu um erro: ', error)
+
+    if (isAxiosError(error)) {
+      //narrowing (seleção) para o tipo de erro Axios
+      if (error.response?.status === 401) {
+        throw new Error('Operação não autorizada')
+      }
+      if (error.response?.status === 403) {
+        throw new Error('Usuário não tem permissão de acesso')
+      }
+      if (error.response?.status === 404) {
+        throw new Error('Página não encontrada')
+      }
+    }
+    throw new Error('Página em manutenção.')
   }
 }

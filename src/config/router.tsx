@@ -26,8 +26,11 @@ export default function Router() {
             element={<PredictionClientPage />}
           />
           <Route path="/mold/productsPage" element={<ProductsPage />} />
-          <Route path="/mold/productPage/:id" element={<ProductPage />} />
-          <Route path="/mold/clientPage/:id" element={<ClientPage />} />
+          <Route
+            path="/mold/productPage/:idProduct"
+            element={<ProductPage />}
+          />
+          <Route path="/mold/clientPage/:idClient" element={<ClientPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

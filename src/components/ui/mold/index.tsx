@@ -3,14 +3,7 @@ import { Container, RightSide, MenusBackgroundSpace } from './style'
 import { Sidebar } from '../sidebar'
 import { Outlet } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import { getUserMe } from '@/config/services/functions'
-
-type UserMe = {
-  email: string
-  id: number
-  nome: string
-  papel: string
-}
+import { getUserMe, UserMe } from '@/config/services/functions'
 
 export const Mold = () => {
   const [compresssidebar, setcompresssidebar] = useState(false)
