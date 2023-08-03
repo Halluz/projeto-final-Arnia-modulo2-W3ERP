@@ -5,6 +5,7 @@ import { Table1Row } from '@/components/ui/table1Row'
 import { Status, TypeStatus } from '@/components/ui/status'
 import { useEffect, useState } from 'react'
 import {
+  TypeProductsPageAPI,
   autorization,
   getProductsListOfPageProducts
 } from '@/config/services/functions'
@@ -115,6 +116,42 @@ const vet2: TypeVet2[] = [
   }
 ]
 
+const initial: TypeProductsPageAPI = {
+  content: [
+    {
+      classificacao: 'NEUTRO',
+      id: 0,
+      nome: 'Anônimo',
+      percentual: 0
+    }
+  ],
+  empty: true,
+  first: true,
+  last: true,
+  number: 0,
+  numberOfElements: 0,
+  pageable: {
+    offset: 0,
+    pageNumber: 0,
+    pageSize: 0,
+    paged: true,
+    sort: {
+      empty: true,
+      sorted: true,
+      unsorted: true
+    },
+    unpaged: true
+  },
+  size: 0,
+  sort: {
+    empty: true,
+    sorted: true,
+    unsorted: true
+  },
+  totalElements: 0,
+  totalPages: 0
+}
+
 export type TypeProductOfPageProducts = {
   classificacao: 'EM_ALTA' | 'EM_BAIXA' | 'NEUTRO'
   id: number
@@ -123,15 +160,22 @@ export type TypeProductOfPageProducts = {
 }
 
 export const ProductsPage = () => {
+  const [responseProductsPage, setResponseProductsPage] =
+    useState<TypeProductsPageAPI>(initial)
   const [productsList, setProductsList] = useState<TypeProductOfPageProducts[]>(
     []
   )
+  const [parameters, setParameters] = useState('')
 
   useEffect(() => {
     autorization()
     const getProductsListOfPageProducts2 = async () => {
       const responseProductsList = await getProductsListOfPageProducts()
-      setProductsList(responseProductsList)
+      console.log(
+        'Resposta API página de Produtos (no plural): ',
+        responseProductsList
+      )
+      setProductsList(responseProductsList.content)
     }
     getProductsListOfPageProducts2()
   }, [])

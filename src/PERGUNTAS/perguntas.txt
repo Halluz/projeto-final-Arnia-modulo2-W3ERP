@@ -11,5 +11,7 @@ Alberto Timóteo18:42
 passagem de props para styled-components
 styled.span<{percentage: number}>`
 
+6) - 
+
 
 

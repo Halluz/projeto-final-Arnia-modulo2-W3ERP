@@ -44,6 +44,35 @@ export type UserMe = {
   papel: string
 }
 
+export type TypeProductsPageAPI = {
+  content: TypeProductOfPageProducts[]
+  empty: boolean
+  first: boolean
+  last: boolean
+  number: number
+  numberOfElements: number
+  pageable: {
+    offset: number
+    pageNumber: number
+    pageSize: number
+    paged: boolean
+    sort: {
+      empty: boolean
+      sorted: boolean
+      unsorted: boolean
+    }
+    unpaged: boolean
+  }
+  size: number
+  sort: {
+    empty: boolean
+    sorted: boolean
+    unsorted: boolean
+  }
+  totalElements: number
+  totalPages: number
+}
+
 export const toLog = async (email: string, password: string) => {
   try {
     console.log(`email: ${email} | senha: ${password}`)
@@ -326,27 +355,26 @@ export const getProductsListOfClientPage = async (
   }
 }
 
-export const getProductsListOfPageProducts = async (): Promise<
-  TypeProductOfPageProducts[]
-> => {
-  try {
-    const response = await instance.get(`/app/produto`)
-    return response.data.content
-  } catch (error) {
-    console.log('Ocorreu um erro: ', error)
+export const getProductsListOfPageProducts =
+  async (): Promise<TypeProductsPageAPI> => {
+    try {
+      const response = await instance.get(`/app/produto?size=40`)
+      return response.data
+    } catch (error) {
+      console.log('Ocorreu um erro: ', error)
 
-    if (isAxiosError(error)) {
-      //narrowing (seleção) para o tipo de erro Axios
-      if (error.response?.status === 401) {
-        throw new Error('Operação não autorizada')
+      if (isAxiosError(error)) {
+        //narrowing (seleção) para o tipo de erro Axios
+        if (error.response?.status === 401) {
+          throw new Error('Operação não autorizada')
+        }
+        if (error.response?.status === 403) {
+          throw new Error('Usuário não tem permissão de acesso')
+        }
+        if (error.response?.status === 404) {
+          throw new Error('Página não encontrada')
+        }
       }
-      if (error.response?.status === 403) {
-        throw new Error('Usuário não tem permissão de acesso')
-      }
-      if (error.response?.status === 404) {
-        throw new Error('Página não encontrada')
-      }
+      throw new Error('Página em manutenção.')
     }
-    throw new Error('Página em manutenção.')
   }
-}

@@ -11,6 +11,10 @@ export const EmAlta = styled.div`
   height: 4rem;
   border-radius: 0.8rem;
   color: ${colors.success};
+
+  &:hover {
+    border: 0.1rem solid ${colors.success};
+  }
 `
 export const EmBaixa = styled.div`
   display: flex;
@@ -22,6 +26,10 @@ export const EmBaixa = styled.div`
   height: 4rem;
   border-radius: 0.8rem;
   color: ${colors.error};
+
+  &:hover {
+    border: 0.1rem solid ${colors.error};
+  }
 `
 
 export const Neutro = styled.div`
