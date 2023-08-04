@@ -8,7 +8,7 @@ import { colors } from '@/assets/styles/colors'
 import { Back } from '@/components/ui/back'
 import { Table1Row } from '@/components/ui/table1Row'
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import {
   TypeResumePanelPageProductOrPageClient,
   autorization,
@@ -89,24 +89,35 @@ export const ClientPage = () => {
   const [productsListEmBaixa, setProductsListEmBaixa] = useState<
     TypeProductOfClientPage[]
   >([])
-  const [productsListEmAlta, setProductsLlistEmAlta] = useState<
+  const [productsListEmAlta, setProductsListEmAlta] = useState<
     TypeProductOfClientPage[]
   >([])
   const { idClient } = useParams()
+  const navigate = useNavigate()
 
   useEffect(() => {
-    autorization()
-    const getProductsListOfClientPage2 = async () => {
-      const resumeClientPage = await getResumeClientPage(idClient)
-      setResume(resumeClientPage)
+    const authorized = autorization()
+    if (authorized) {
+      const getProductsListOfClientPage2 = async () => {
+        const resumeClientPage = await getResumeClientPage(idClient)
+        setResume(resumeClientPage)
 
-      const responseEmBaixa = await getProductsListOfClientPage(
-        idClient,
-        'EM_BAIXA'
-      )
-      setProductsListEmBaixa(responseEmBaixa)
+        const responseEmBaixa = await getProductsListOfClientPage(
+          idClient,
+          'EM_BAIXA'
+        )
+        setProductsListEmBaixa(responseEmBaixa)
+
+        const responseEmAlta = await getProductsListOfClientPage(
+          idClient,
+          'EM_ALTA'
+        )
+        setProductsListEmAlta(responseEmAlta)
+      }
+      getProductsListOfClientPage2()
+    } else {
+      navigate('/naoautorizado')
     }
-    getProductsListOfClientPage2()
   }, [])
 
   return (

@@ -12,8 +12,8 @@ import { Table3Row } from '@/components/ui/table3Row'
 import { CheckOneComponent } from '@/components/ui/checkOne'
 import { PanelPrediction } from '@/components/ui/panelPredictionClientPage'
 import { useEffect, useState } from 'react'
-import { autorization } from '@/config/services/functions'
-import { useParams } from 'react-router-dom'
+import { autorization, getHistoricAPI } from '@/config/services/functions'
+import { useParams, useNavigate } from 'react-router-dom'
 
 const vet1 = [
   {
@@ -254,14 +254,24 @@ export type TypeHistoricAPI = {
 export const PredictionClientPage = () => {
   //"/mold/predicaoClientPage/:idClient/:clientName/:tel/:email"
   const [historic, setHistoric] = useState<TypeHistoricAPI>(initial)
-  const [listProductsHistoric, setListProductsHistoric] = useState()
-  const [listProductsEsgotando, setListProductsEsgotando] = useState()
+  const [listProductsHistoric, setListProductsHistoric] = useState<
+    TypeProductHistoric[]
+  >([])
+  const [listProductsEsgotando, setListProductsEsgotando] = useState([])
 
   const { idClient, clientName, tel, email } = useParams()
+  const navigate = useNavigate()
 
   useEffect(() => {
-    autorization()
-    const getHistoricAPI2 = async () => {}
+    const authorized = autorization()
+    if (authorized) {
+      const getHistoricAPI2 = async () => {
+        const responseHistoric = await getHistoricAPI(idClient)
+        setListProductsHistoric(responseHistoric.content)
+      }
+    } else {
+      navigate('/naoautorizado')
+    }
   }, [])
   return (
     <ContainerPage>
@@ -287,7 +297,17 @@ export const PredictionClientPage = () => {
             col4="Qtd"
             col5="Dar baixa"
           >
-            {vet1.map((element, index) => (
+            {listProductsHistoric.map((element, index) => (
+              <Table2Row
+                key={`${index}${element.id}`}
+                cell1={String(element.id)}
+                cell2={element.nome}
+                cell3={element.ultimaCompra}
+                cell4={element.quantidade}
+                cell5={<CheckOneComponent />}
+              />
+            ))}
+            {/* {vet1.map((element, index) => (
               <Table2Row
                 key={`${index}${element.atributo1}`}
                 cell1={element.atributo1}
@@ -296,7 +316,7 @@ export const PredictionClientPage = () => {
                 cell4={element.atributo4}
                 cell5={element.atributo5}
               />
-            ))}
+            ))} */}
           </Table2>
         </ContainerTable>
         <ContainerTable>

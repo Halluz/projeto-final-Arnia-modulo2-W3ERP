@@ -17,6 +17,7 @@ import {
   autorization,
   getPredictionsPageAPI
 } from '@/config/services/functions'
+import { useNavigate } from 'react-router-dom'
 
 type TypeMocadoProduct = {
   productName: string
@@ -408,14 +409,20 @@ export const PredictionsPage = () => {
   const [vetCardPredictions, setVetCardPredictions] = useState<
     TypeCardPredictions[]
   >([])
+  const navigate = useNavigate()
+
   useEffect(() => {
-    autorization()
-    const getPredictionsPageAPI2 = async () => {
-      const response = await getPredictionsPageAPI()
-      setResponsePreditionsPage(response)
-      setVetCardPredictions(response.content)
+    const authorized = autorization()
+    if (authorized) {
+      const getPredictionsPageAPI2 = async () => {
+        const response = await getPredictionsPageAPI()
+        setResponsePreditionsPage(response)
+        setVetCardPredictions(response.content)
+      }
+      getPredictionsPageAPI2()
+    } else {
+      navigate('/naoautorizado')
     }
-    getPredictionsPageAPI2()
   }, [])
   return (
     <ContainerPage>

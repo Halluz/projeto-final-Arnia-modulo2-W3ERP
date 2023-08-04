@@ -4,6 +4,7 @@ import { SearchBar } from '@/components/ui/searchBar'
 import { Table1Row } from '@/components/ui/table1Row'
 import { Status, TypeStatus } from '@/components/ui/status'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   TypeProductsPageAPI,
   autorization,
@@ -166,18 +167,23 @@ export const ProductsPage = () => {
     []
   )
   const [parameters, setParameters] = useState('')
+  const navigate = useNavigate()
 
   useEffect(() => {
-    autorization()
-    const getProductsListOfPageProducts2 = async () => {
-      const responseProductsList = await getProductsListOfPageProducts()
-      console.log(
-        'Resposta API página de Produtos (no plural): ',
-        responseProductsList
-      )
-      setProductsList(responseProductsList.content)
+    const authorized = autorization()
+    if (authorized) {
+      const getProductsListOfPageProducts2 = async () => {
+        const responseProductsList = await getProductsListOfPageProducts()
+        console.log(
+          'Resposta API página de Produtos (no plural): ',
+          responseProductsList
+        )
+        setProductsList(responseProductsList.content)
+      }
+      getProductsListOfPageProducts2()
+    } else {
+      navigate('/naoautorizado')
     }
-    getProductsListOfPageProducts2()
   }, [])
   return (
     <ContainerPage>

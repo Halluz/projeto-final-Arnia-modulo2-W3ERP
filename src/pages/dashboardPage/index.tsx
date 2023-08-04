@@ -9,6 +9,7 @@ import { colors } from '@/assets/styles/colors'
 import { Table1Row } from '@/components/ui/table1Row'
 import { ButtonToggle } from '@/components/ui/buttonToggle'
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   autorization,
   getDashboardClientsList,
@@ -91,21 +92,32 @@ export const DashboardPage = () => {
     'EM_ALTA' | 'EM_BAIXA' | 'NEUTRO'
   >('EM_ALTA')
 
+  const navigate = useNavigate()
+
   useEffect(() => {
-    const getDashboardClientsList2 = async () => {
-      const response = await getDashboardClientsList(statusClients)
-      setClientsList(response)
+    const authorized = autorization()
+    if (authorized) {
+      const getDashboardClientsList2 = async () => {
+        const response = await getDashboardClientsList(statusClients)
+        setClientsList(response)
+      }
+      getDashboardClientsList2()
+    } else {
+      navigate('/naoautorizado')
     }
-    getDashboardClientsList2()
   }, [statusClients])
 
   useEffect(() => {
-    autorization()
-    const getDashboardProductsList2 = async () => {
-      const response = await getDashboardProductsList(statusProducts)
-      setProductsList(response)
+    const authorized = autorization()
+    if (authorized) {
+      const getDashboardProductsList2 = async () => {
+        const response = await getDashboardProductsList(statusProducts)
+        setProductsList(response)
+      }
+      getDashboardProductsList2()
+    } else {
+      navigate('/naoautorizado')
     }
-    getDashboardProductsList2()
   }, [statusProducts])
 
   return (

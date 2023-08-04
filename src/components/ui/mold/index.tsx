@@ -1,7 +1,7 @@
 import { Header } from '../header'
 import { Container, RightSide, MenusBackgroundSpace } from './style'
 import { Sidebar } from '../sidebar'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { autorization, getUserMe, UserMe } from '@/config/services/functions'
 
@@ -14,14 +14,20 @@ export const Mold = () => {
     papel: 'ADMINISTRADOR'
   })
 
+  const navigate = useNavigate()
+
   useEffect(() => {
-    autorization()
-    const getUserMe2 = async () => {
-      const response = await getUserMe()
-      console.log(response)
-      setUserMe(response)
+    const authorized = autorization()
+    if (authorized) {
+      const getUserMe2 = async () => {
+        const response = await getUserMe()
+        console.log(response)
+        setUserMe(response)
+      }
+      getUserMe2()
+    } else {
+      navigate('/naoautorizado')
     }
-    getUserMe2()
   }, [])
 
   return (

@@ -235,17 +235,32 @@ export const logOut = () => {
     window.location.href = `/`
   }
 }
-
 export const autorization = () => {
   if (
     localStorage.getItem('type') === null ||
     localStorage.getItem('token') === null ||
     localStorage.getItem('type') === '' ||
-    localStorage.getItem('token') === ''
+    localStorage.getItem('token') === '' ||
+    localStorage.getItem('type') === undefined ||
+    localStorage.getItem('token') === undefined
+  ) {
+    return false
+  }
+  return true
+}
+
+/* export const autorization = () => {
+  if (
+    localStorage.getItem('type') === null ||
+    localStorage.getItem('token') === null ||
+    localStorage.getItem('type') === '' ||
+    localStorage.getItem('token') === '' ||
+    localStorage.getItem('type') === undefined ||
+    localStorage.getItem('token') === undefined
   ) {
     window.location.href = `/naoautorizado`
   }
-}
+} */
 
 export const getResumeProductPage = async (
   idProduct: string | undefined
@@ -384,6 +399,38 @@ export const getPredictionsPageAPI = async () => {
   try {
     const response = await instance.get(`/app/predicao`)
     console.log('Resposta API página predições: ', response.data)
+    return response.data
+  } catch (error) {
+    console.log('Ocorreu um erro: ', error)
+
+    if (isAxiosError(error)) {
+      //narrowing (seleção) para o tipo de erro Axios
+      if (error.response?.status === 401) {
+        throw new Error('Operação não autorizada')
+      }
+      if (error.response?.status === 403) {
+        throw new Error('Usuário não tem permissão de acesso')
+      }
+      if (error.response?.status === 404) {
+        throw new Error('Página não encontrada')
+      }
+    }
+    throw new Error('Página em manutenção.')
+  }
+}
+
+export const getHistoricAPI = async (
+  idClient: string | undefined,
+  parameters?: string
+) => {
+  try {
+    const response = await instance.get(
+      `/app/predicao/${idClient}/historico${parameters}`
+    )
+    console.log(
+      'Resposta API Histórico de produtos da página Predicao Cliente: ',
+      response.data
+    )
     return response.data
   } catch (error) {
     console.log('Ocorreu um erro: ', error)

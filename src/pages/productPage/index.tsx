@@ -12,7 +12,7 @@ import { Table1Row } from '@/components/ui/table1Row'
 import { useEffect, useState } from 'react'
 import { autorization, getResumeProductPage } from '@/config/services/functions'
 import { getClientsListOfProductPage } from '@/config/services/functions'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { TypeResumePanelPageProductOrPageClient } from '@/config/services/functions'
 
 const vet = [
@@ -83,6 +83,7 @@ export const ProductPage = () => {
     TypeClientOfProductPage[]
   >([])
   const { idProduct } = useParams() //captura o idProduct da url
+  const navigate = useNavigate()
 
   const [resumo, setResumo] = useState<
     TypeResumePanelPageProductOrPageClient | undefined
@@ -95,37 +96,30 @@ export const ProductPage = () => {
     ultimos60Dias: 0,
     ultimos90Dias: 0
   })
-  // const [stateIdProduct, setStateIdProduct] = useState<string | undefined>('')
-  /* {
-    media120Dias: 0,
-    nome: 'Anônimo',
-    percentualUltimos30Dias: 0,
-    ultimos120Dias: 0,
-    ultimos30Dias: 0,
-    ultimos60Dias: 0,
-    ultimos90Dias: 0
-  } */
 
   useEffect(() => {
-    autorization()
-    // setStateIdProduct(idProduct)
-    const getClientsListOfProductPage2 = async () => {
-      const resumoProductPage = await getResumeProductPage(idProduct)
-      setResumo(resumoProductPage)
+    const authorized = autorization()
+    if (authorized) {
+      const getClientsListOfProductPage2 = async () => {
+        const resumoProductPage = await getResumeProductPage(idProduct)
+        setResumo(resumoProductPage)
 
-      const responseEmbaixa = await getClientsListOfProductPage(
-        idProduct,
-        'EM_BAIXA'
-      )
-      setClientsListEmBaixa(responseEmbaixa)
+        const responseEmbaixa = await getClientsListOfProductPage(
+          idProduct,
+          'EM_BAIXA'
+        )
+        setClientsListEmBaixa(responseEmbaixa)
 
-      const responseEmAlta = await getClientsListOfProductPage(
-        idProduct,
-        'EM_ALTA'
-      )
-      setClientsListEmAlta(responseEmAlta)
+        const responseEmAlta = await getClientsListOfProductPage(
+          idProduct,
+          'EM_ALTA'
+        )
+        setClientsListEmAlta(responseEmAlta)
+      }
+      getClientsListOfProductPage2()
+    } else {
+      navigate('/naoautorizado')
     }
-    getClientsListOfProductPage2()
   }, [])
   return (
     <ContainerPage>
