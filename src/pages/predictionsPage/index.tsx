@@ -429,6 +429,9 @@ export const PredictionsPage = () => {
             key={`${index}${element.id}`}
             clientName={element.nome}
             clientStatus={element.classificacao}
+            idClient={String(element.id)}
+            clientTel={element.telefone}
+            clientEmail={element.email}
           >
             <TableCardPrediction col1Name="Produto" col2Name="Prox. compra">
               {element.produtos.map((product, index) => (

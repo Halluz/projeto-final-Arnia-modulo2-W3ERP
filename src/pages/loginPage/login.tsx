@@ -1,5 +1,5 @@
 import { FormLogin } from '@/components/ui/form'
-import { Container1, Container2 } from './style'
+import { Container1, Container2, ImageLogin } from './style'
 import ExecutiveBoy from '../../assets/images/loginBoy2.jpg'
 
 export const LoginPage = () => {
@@ -8,9 +8,9 @@ export const LoginPage = () => {
       <Container2>
         <FormLogin />
       </Container2>
-      <div>
-        <img src={ExecutiveBoy} alt="Executive Boy" />
-      </div>
+      <Container2>
+        <ImageLogin src={ExecutiveBoy} alt="Executive Boy" />
+      </Container2>
     </Container1>
   )
 }

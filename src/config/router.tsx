@@ -22,7 +22,7 @@ export default function Router() {
           <Route path="/mold/dashboardPage" element={<DashboardPage />} />
           <Route path="/mold/predicoesPage" element={<PredictionsPage />} />
           <Route
-            path="/mold/predicaoClientPage/:idClient"
+            path="/mold/predicaoClientPage/:idClient/:clientName/:tel/:email"
             element={<PredictionClientPage />}
           />
           <Route path="/mold/productsPage" element={<ProductsPage />} />

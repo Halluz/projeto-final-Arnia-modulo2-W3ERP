@@ -95,14 +95,15 @@ export const toLog = async (email: string, password: string) => {
     if (isAxiosError(error)) {
       //narrowing (seleção) para o tipo de erro Axios
       if (error.response?.status === 401) {
-        throw new Error('Operação não autorizada')
+        throw new Error('Operação não autorizada. Dados inválidos.')
       }
       if (error.response?.status === 403) {
-        throw new Error('Usuário não tem permissão de acesso')
+        throw new Error('Usuário não tem permissão de acesso. Dados inválidos.')
       }
       if (error.response?.status === 404) {
         throw new Error('Página não encontrada')
       }
+      return error
     }
   }
 }

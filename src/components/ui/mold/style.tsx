@@ -3,13 +3,13 @@ import { colors } from '@/assets/styles/colors'
 
 export const Container = styled.div`
   display: flex;
-  border: 2px solid red;
+  /* border: 2px solid red; */
   /* width: 100%; */
 `
 
 export const RightSide = styled.div`
   width: 100%;
-  border: 7px solid orange;
+  /* border: 7px solid orange; */
 `
 export const MenusBackgroundSpace = styled.div<{ compresssidebar: boolean }>`
   padding: 13rem 0rem 0rem

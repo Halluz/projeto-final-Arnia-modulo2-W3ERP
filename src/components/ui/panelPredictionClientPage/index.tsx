@@ -8,9 +8,9 @@ import {
 } from './style'
 
 type TypePanelPrediction = {
-  clientName: string
-  clientPhoneNumber: string
-  clientEmail: string
+  clientName: string | undefined
+  clientPhoneNumber: string | undefined
+  clientEmail: string | undefined
 }
 
 export const PanelPrediction = ({

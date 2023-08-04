@@ -3,7 +3,7 @@ import { Container, RightSide, MenusBackgroundSpace } from './style'
 import { Sidebar } from '../sidebar'
 import { Outlet } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import { getUserMe, UserMe } from '@/config/services/functions'
+import { autorization, getUserMe, UserMe } from '@/config/services/functions'
 
 export const Mold = () => {
   const [compresssidebar, setcompresssidebar] = useState(false)
@@ -15,6 +15,7 @@ export const Mold = () => {
   })
 
   useEffect(() => {
+    autorization()
     const getUserMe2 = async () => {
       const response = await getUserMe()
       console.log(response)

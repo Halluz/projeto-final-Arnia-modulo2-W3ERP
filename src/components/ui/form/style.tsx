@@ -3,6 +3,7 @@ import { colors } from '@/assets/styles/colors'
 
 export const FormStyle = styled.form`
   width: 40rem; //400px;
+  padding: 4rem 2rem;
 `
 export const TitleH3 = styled.h3`
   font-family: 'Sora', sans-serif;

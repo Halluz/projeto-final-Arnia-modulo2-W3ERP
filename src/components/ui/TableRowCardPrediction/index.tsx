@@ -1,4 +1,4 @@
-import { TDStyle } from './style'
+import { TDStyle, TDStyle2 } from './style'
 
 export type TypeTableRowCardPredition = {
   cell1: string
@@ -11,7 +11,7 @@ export const TableRowCardPrediction = ({
 }: TypeTableRowCardPredition) => {
   return (
     <tr>
-      <td>{cell1}</td>
+      <TDStyle2>{cell1}</TDStyle2>
       <TDStyle>{cell2}</TDStyle>
     </tr>
   )

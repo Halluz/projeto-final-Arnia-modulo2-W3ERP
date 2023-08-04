@@ -52,9 +52,12 @@ export const FormLogin = () => {
 
     //chamada da função
     const response = await toLog(email, password)
-    console.log('Código de status da requisição de login: ', response.status)
-    if (response.status === 200) {
+    console.log('Código de status da requisição de login: ', response?.status)
+    if (response?.status === 200) {
       systemNavigate('/mold/dashboardPage')
+    } else {
+      console.log('Falha na requisição de login: ', response)
+      window.alert('Dados inválidos.')
     }
   }
 

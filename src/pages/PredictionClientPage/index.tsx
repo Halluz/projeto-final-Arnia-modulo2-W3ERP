@@ -1,4 +1,3 @@
-import { Panel } from '@/components/ui/panel'
 import { ContainerPage, ContainerTables, ContainerTable } from './style'
 import { Table2 } from '@/components/ui/table2'
 import { TableTitle } from '@/components/ui/tableTitle'
@@ -12,8 +11,9 @@ import { Table3 } from '@/components/ui/table3'
 import { Table3Row } from '@/components/ui/table3Row'
 import { CheckOneComponent } from '@/components/ui/checkOne'
 import { PanelPrediction } from '@/components/ui/panelPredictionClientPage'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { autorization } from '@/config/services/functions'
+import { useParams } from 'react-router-dom'
 
 const vet1 = [
   {
@@ -179,17 +179,97 @@ const vet2 = [
   }
 ]
 
+const initial: TypeHistoricAPI = {
+  content: [
+    {
+      id: 0,
+      nome: 'Anônimo',
+      quantidade: 0,
+      ultimaCompra: '2023-08-03T21:52:50.571Z'
+    }
+  ],
+  empty: true,
+  first: true,
+  last: true,
+  number: 0,
+  numberOfElements: 0,
+  pageable: {
+    offset: 0,
+    pageNumber: 0,
+    pageSize: 0,
+    paged: true,
+    sort: {
+      empty: true,
+      sorted: true,
+      unsorted: true
+    },
+    unpaged: true
+  },
+  size: 0,
+  sort: {
+    empty: true,
+    sorted: true,
+    unsorted: true
+  },
+  totalElements: 0,
+  totalPages: 0
+}
+
+export type TypeProductHistoric = {
+  id: number
+  nome: string
+  quantidade: number
+  ultimaCompra: string // verificar => '2023-08-03T21:52:50.571Z'
+}
+
+export type TypeHistoricAPI = {
+  content: TypeProductHistoric[]
+  empty: boolean
+  first: boolean
+  last: boolean
+  number: number
+  numberOfElements: number
+  pageable: {
+    offset: number
+    pageNumber: number
+    pageSize: number
+    paged: boolean
+    sort: {
+      empty: boolean
+      sorted: boolean
+      unsorted: boolean
+    }
+    unpaged: boolean
+  }
+  size: number
+  sort: {
+    empty: boolean
+    sorted: boolean
+    unsorted: boolean
+  }
+  totalElements: number
+  totalPages: number
+}
+
 export const PredictionClientPage = () => {
+  //"/mold/predicaoClientPage/:idClient/:clientName/:tel/:email"
+  const [historic, setHistoric] = useState<TypeHistoricAPI>(initial)
+  const [listProductsHistoric, setListProductsHistoric] = useState()
+  const [listProductsEsgotando, setListProductsEsgotando] = useState()
+
+  const { idClient, clientName, tel, email } = useParams()
+
   useEffect(() => {
     autorization()
+    const getHistoricAPI2 = async () => {}
   }, [])
   return (
     <ContainerPage>
       <Back content="Detalhamento" />
       <PanelPrediction
-        clientName="Hotel Ibis"
-        clientPhoneNumber="31 99468-9894"
-        clientEmail="hotelibis@gmail.com"
+        clientName={clientName}
+        clientPhoneNumber={tel}
+        clientEmail={email}
       />
       <ContainerTables>
         <ContainerTable>

@@ -18,16 +18,24 @@ type TypePredictionsClientCard = {
   children: ReactNode
   clientName: string
   clientStatus: 'EM_ALTA' | 'EM_BAIXA' | 'NEUTRO'
+  idClient: string
+  clientEmail: string
+  clientTel: string
 }
 
 export const CardPredictions = ({
   children,
   clientName,
-  clientStatus
+  clientStatus,
+  idClient,
+  clientEmail,
+  clientTel
 }: TypePredictionsClientCard) => {
   return (
     <ContainerCardPrediction>
-      <LinkCardPrediction to={'/mold/predicaoClientPage'}>
+      <LinkCardPrediction
+        to={`/mold/predicaoClientPage/${idClient}/${clientName}/${clientTel}/${clientEmail}`}
+      >
         <HeaderCardPrediction>
           <ProfileCardPrediction>
             <Circle>
