@@ -21,17 +21,18 @@ export const ContainerCheckOne = styled.div<{ clicked: boolean }>`
 
   &:hover {
     cursor: pointer;
-  }
-
-  &.active {
     background-color: ${colors.lightGreen};
   }
 `
 
-export const ImageBallon = styled.img<{ showAndHide: boolean }>`
-  display: ${({ showAndHide }) => (showAndHide ? 'block' : 'none')};
+export const ImageBallon = styled.img`
+  display: none;
   top: 0rem;
   //right: 0px;
   position: absolute;
   transform: translate(-40%, -90%);
+  //quando o mouse passar sobre ContainerExternal mostrar balão.
+  ${ContainerExternal}:hover & {
+    display: block;
+  }
 `

@@ -1,5 +1,5 @@
 import { TypePanelDashboard } from '@/components/ui/panelDashboard'
-import { TypeHistoricAPI } from '@/pages/PredictionClientPage'
+import { TypeEsgotandoAPI, TypeHistoricAPI } from '@/pages/PredictionClientPage'
 import { TypeProductOfClientPage } from '@/pages/clientPage'
 import {
   TypeClientDashboard,
@@ -428,12 +428,40 @@ export const getHistoricAPI = async (
 ): Promise<TypeHistoricAPI> => {
   const params = parameters ?? '' //??: Esse é o operador de coalescência nula, também conhecido como nullish coalescing operator. Ele é usado para fornecer um valor padrão quando o valor à esquerda é null ou undefined. Se o valor à esquerda for diferente de null ou undefined, o operador retornará esse valor à esquerda.
   try {
-    const response = await instance.get(
-      `/app/predicao/${idClient}/historico${params}`
-    )
+    //`/app/predicao/${idClient}/historico${params}`
+    const response = await instance.get(`/app/predicao/${idClient}/historico`)
     console.log(
       'Resposta API Histórico de produtos da página Predicao Cliente: ',
       response.data
+    )
+    return response.data
+  } catch (error) {
+    console.log('Ocorreu um erro: ', error)
+
+    if (isAxiosError(error)) {
+      //narrowing (seleção) para o tipo de erro Axios
+      if (error.response?.status === 401) {
+        throw new Error('Operação não autorizada')
+      }
+      if (error.response?.status === 403) {
+        throw new Error('Usuário não tem permissão de acesso')
+      }
+      if (error.response?.status === 404) {
+        throw new Error('Página não encontrada')
+      }
+    }
+    throw new Error('Página em manutenção.')
+  }
+}
+
+export const getEsgotandoAPI = async (
+  idClient: string | undefined,
+  parameters?: string
+): Promise<TypeEsgotandoAPI> => {
+  const params = parameters ?? ''
+  try {
+    const response = await instance.get(
+      `/app/predicao/${idClient}/esgotando${params}`
     )
     return response.data
   } catch (error) {

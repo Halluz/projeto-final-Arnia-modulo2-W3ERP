@@ -12,7 +12,11 @@ import { Table3Row } from '@/components/ui/table3Row'
 import { CheckOneComponent } from '@/components/ui/checkOne'
 import { PanelPrediction } from '@/components/ui/panelPredictionClientPage'
 import { useEffect, useState } from 'react'
-import { autorization, getHistoricAPI } from '@/config/services/functions'
+import {
+  autorization,
+  getEsgotandoAPI,
+  getHistoricAPI
+} from '@/config/services/functions'
 import { useParams, useNavigate } from 'react-router-dom'
 
 const vet1 = [
@@ -251,13 +255,53 @@ export type TypeHistoricAPI = {
   totalPages: number
 }
 
+export type TypeProductEsgotando = {
+  id: number
+  nome: string
+  proximaCompra: string
+  quantidade: number
+  ultimaCompra: string
+}
+
+export type TypeEsgotandoAPI = {
+  content: TypeProductEsgotando[]
+  empty: boolean
+  first: boolean
+  last: boolean
+  number: number
+  numberOfElements: number
+  pageable: {
+    offset: number
+    pageNumber: number
+    pageSize: number
+    paged: boolean
+    sort: {
+      empty: boolean
+      sorted: boolean
+      unsorted: boolean
+    }
+    unpaged: boolean
+  }
+  size: number
+  sort: {
+    empty: boolean
+    sorted: boolean
+    unsorted: boolean
+  }
+  totalElements: number
+  totalPages: number
+}
+
 export const PredictionClientPage = () => {
   //"/mold/predicaoClientPage/:idClient/:clientName/:tel/:email"
   const [historic, setHistoric] = useState<TypeHistoricAPI>(initial)
   const [listProductsHistoric, setListProductsHistoric] = useState<
     TypeProductHistoric[]
   >([])
-  const [listProductsEsgotando, setListProductsEsgotando] = useState([])
+  const [esgotando, setEsgotando] = useState<TypeEsgotandoAPI>()
+  const [listProductsEsgotando, setListProductsEsgotando] = useState<
+    TypeProductEsgotando[]
+  >([])
 
   const { idClient, clientName, tel, email } = useParams()
   const navigate = useNavigate()
@@ -265,13 +309,18 @@ export const PredictionClientPage = () => {
   useEffect(() => {
     const authorized = autorization()
     if (authorized) {
-      const getHistoricAPI2 = async () => {
+      const helperAsyncFunction = async () => {
         const responseHistoric = await getHistoricAPI(idClient)
         setHistoric(responseHistoric)
         console.log('Histórico aqui: ', responseHistoric)
         setListProductsHistoric(responseHistoric.content)
+        // setListProductsHistoric(historic.content)
+
+        const responseEsgotando = await getEsgotandoAPI(idClient)
+        setEsgotando(responseEsgotando)
+        setListProductsEsgotando(responseEsgotando.content)
       }
-      getHistoricAPI2()
+      helperAsyncFunction()
     } else {
       navigate('/naoautorizado')
     }
@@ -338,7 +387,18 @@ export const PredictionClientPage = () => {
             col5="Qtd"
             col6={'Dar baixa'}
           >
-            {vet2.map((element, index) => (
+            {listProductsEsgotando.map((element, index) => (
+              <Table3Row
+                key={`${index}${element.id}`}
+                cell1={String(element.id)}
+                cell2={element.nome}
+                cell3={element.ultimaCompra}
+                cell4={element.proximaCompra}
+                cell5={element.quantidade}
+                cell6={<CheckOneComponent />}
+              />
+            ))}
+            {/* {vet2.map((element, index) => (
               <Table3Row
                 key={`${index}${element.atributo1}`}
                 cell1={element.atributo1}
@@ -348,7 +408,7 @@ export const PredictionClientPage = () => {
                 cell5={element.atributo5}
                 cell6={element.atributo6}
               />
-            ))}
+            ))} */}
           </Table3>
         </ContainerTable>
       </ContainerTables>
