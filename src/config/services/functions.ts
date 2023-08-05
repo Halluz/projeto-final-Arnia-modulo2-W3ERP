@@ -1,9 +1,11 @@
 import { TypePanelDashboard } from '@/components/ui/panelDashboard'
+import { TypeHistoricAPI } from '@/pages/PredictionClientPage'
 import { TypeProductOfClientPage } from '@/pages/clientPage'
 import {
   TypeClientDashboard,
   TypeProductDashboard
 } from '@/pages/dashboardPage'
+import { TypePredictionsPageAPI } from '@/pages/predictionsPage'
 import { TypeClientOfProductPage } from '@/pages/productPage'
 import { TypeProductOfPageProducts } from '@/pages/productsPage'
 import axios, { isAxiosError } from 'axios'
@@ -395,37 +397,39 @@ export const getProductsListOfPageProducts =
     }
   }
 
-export const getPredictionsPageAPI = async () => {
-  try {
-    const response = await instance.get(`/app/predicao`)
-    console.log('Resposta API página predições: ', response.data)
-    return response.data
-  } catch (error) {
-    console.log('Ocorreu um erro: ', error)
+export const getPredictionsPageAPI =
+  async (): Promise<TypePredictionsPageAPI> => {
+    try {
+      const response = await instance.get(`/app/predicao`)
+      console.log('Resposta API página predições: ', response.data)
+      return response.data
+    } catch (error) {
+      console.log('Ocorreu um erro: ', error)
 
-    if (isAxiosError(error)) {
-      //narrowing (seleção) para o tipo de erro Axios
-      if (error.response?.status === 401) {
-        throw new Error('Operação não autorizada')
+      if (isAxiosError(error)) {
+        //narrowing (seleção) para o tipo de erro Axios
+        if (error.response?.status === 401) {
+          throw new Error('Operação não autorizada')
+        }
+        if (error.response?.status === 403) {
+          throw new Error('Usuário não tem permissão de acesso')
+        }
+        if (error.response?.status === 404) {
+          throw new Error('Página não encontrada')
+        }
       }
-      if (error.response?.status === 403) {
-        throw new Error('Usuário não tem permissão de acesso')
-      }
-      if (error.response?.status === 404) {
-        throw new Error('Página não encontrada')
-      }
+      throw new Error('Página em manutenção.')
     }
-    throw new Error('Página em manutenção.')
   }
-}
 
 export const getHistoricAPI = async (
   idClient: string | undefined,
   parameters?: string
-) => {
+): Promise<TypeHistoricAPI> => {
+  const params = parameters ?? '' //??: Esse é o operador de coalescência nula, também conhecido como nullish coalescing operator. Ele é usado para fornecer um valor padrão quando o valor à esquerda é null ou undefined. Se o valor à esquerda for diferente de null ou undefined, o operador retornará esse valor à esquerda.
   try {
     const response = await instance.get(
-      `/app/predicao/${idClient}/historico${parameters}`
+      `/app/predicao/${idClient}/historico${params}`
     )
     console.log(
       'Resposta API Histórico de produtos da página Predicao Cliente: ',

@@ -267,8 +267,11 @@ export const PredictionClientPage = () => {
     if (authorized) {
       const getHistoricAPI2 = async () => {
         const responseHistoric = await getHistoricAPI(idClient)
+        setHistoric(responseHistoric)
+        console.log('Histórico aqui: ', responseHistoric)
         setListProductsHistoric(responseHistoric.content)
       }
+      getHistoricAPI2()
     } else {
       navigate('/naoautorizado')
     }
