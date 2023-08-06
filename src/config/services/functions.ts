@@ -115,7 +115,7 @@ export const getDashboardClientsList = async (
 ): Promise<TypeClientDashboard[]> => {
   try {
     const response = await instance.get(
-      `/app/dashboard/clientes?&classificacao=${classification}`
+      `/app/dashboard/clientes?classificacao=${classification}`
     )
     console.log('RespostaAPI status 200: ', response.data)
     return response.data
@@ -145,7 +145,7 @@ export const getDashboardProductsList = async (
 ): Promise<TypeProductDashboard[]> => {
   try {
     const response = await instance.get(
-      `/app/dashboard/produtos?&classificacao=${classification}`
+      `/app/dashboard/produtos?classificacao=${classification}`
     )
     console.log('RespostaAPI status 200: ', response.data)
     return response.data

@@ -3,7 +3,7 @@ import {
   DropdownContainer,
   DropdownMenu,
   DropdownMenuItem,
-  ContainerMenu,
+  ContainerMenuForm,
   MenuTitle,
   ImageDropdown
 } from './style'
@@ -12,7 +12,11 @@ import { colors } from '@/assets/styles/colors'
 import filterIcon from '../../../assets/images/icons/filterIcon.svg'
 import Button2 from '../button-copy'
 
-const DropdownFilter: React.FC = () => {
+type TypeDropdownFilter = {
+  classification: 'EM_ALTA' | 'EMBAIXA' | 'NEUTRO' | ''
+}
+
+export const DropdownFilter = ({ classification }: TypeDropdownFilter) => {
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
@@ -40,7 +44,7 @@ const DropdownFilter: React.FC = () => {
     <DropdownContainer ref={dropdownRef}>
       <ImageDropdown onClick={toggleMenu} src={filterIcon} alt="Ícone Filtro" />
 
-      <ContainerMenu open={isOpen}>
+      <ContainerMenuForm open={isOpen}>
         <MenuTitle>Filtrar por:</MenuTitle>
         <hr color={colors.grey300} style={{ margin: '1.6rem 0rem' }} />
         <p>Status</p>
@@ -57,9 +61,13 @@ const DropdownFilter: React.FC = () => {
             <input type="radio" name="filter" id="option3" />{' '}
             <label htmlFor="option3">Em baixa</label>
           </DropdownMenuItem>
+          <DropdownMenuItem>
+            <input type="radio" name="filter" id="option4" />{' '}
+            <label htmlFor="option3">Neutro</label>
+          </DropdownMenuItem>
         </DropdownMenu>
         <Button2 heightProp="4.8rem">Aplicar</Button2>
-      </ContainerMenu>
+      </ContainerMenuForm>
     </DropdownContainer>
   )
 }

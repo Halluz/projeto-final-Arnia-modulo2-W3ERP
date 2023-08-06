@@ -40,8 +40,13 @@ export const Neutro = styled.div`
   width: 11.1rem;
   height: 4rem;
   border-radius: 0.8rem;
-  border: 2px solid ${colors.grey400};
+  border: 0.2rem solid ${colors.grey400};
   color: ${colors.grey500};
   font-weight: 500;
   margin: 0 auto;
+
+  &:hover {
+    border: 0.2rem solid ${colors.grey600};
+    color: ${colors.grey700};
+  }
 `

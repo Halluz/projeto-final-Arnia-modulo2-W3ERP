@@ -17,9 +17,10 @@ export const DropdownMenu = styled.ul`
   margin: 1.6rem 0rem 2.4rem 0rem;
 `
 
-export const ContainerMenu = styled.div<{ open: boolean }>`
+export const ContainerMenuForm = styled.form<{ open: boolean }>`
   display: ${({ open }) => (open ? 'block' : 'none')};
-  width: 33.5rem;
+  width: 23.5rem; //33.5rem;
+  /* width: 100%; */
   box-shadow: 0px 7px 30px 0px rgba(187, 192, 205, 0.4);
   position: absolute;
   right: 0;
@@ -28,6 +29,7 @@ export const ContainerMenu = styled.div<{ open: boolean }>`
   list-style: none;
   /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); */
   border-radius: 1.6rem;
+  border: 0.1rem solid rgb(187, 192, 205);
 `
 export const MenuTitle = styled.div`
   font-weight: 600;
