@@ -199,7 +199,7 @@ export const ProductsPage = () => {
     } else {
       navigate('/naoautorizado')
     }
-  }, [classification])
+  }, [parameters])
   return (
     <ContainerPage>
       <TitlePage>Produtos</TitlePage>
@@ -208,6 +208,8 @@ export const ProductsPage = () => {
           <SearchBar
             classificationStateVariable={classification}
             setClassificationStateVariable={setClassification}
+            keyWord={keyWord}
+            setKeyWord={setKeyWord}
           />
         </div>
         <Table1 col1="ID" col2="Produtos" col3="Status" col4="Percentual">

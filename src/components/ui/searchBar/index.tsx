@@ -1,5 +1,4 @@
 import searchIcon from '../../../assets/images/icons/searchLupa.svg'
-import filterIcon from '../../../assets/images/icons/filterIcon.svg'
 
 import {
   ButtonLupa,
@@ -8,7 +7,8 @@ import {
   InputSeachStyle,
   FormContainer2Search
 } from './style'
-import DropdownFilter, { TypeDropdownFilter } from '../dropdownFilter'
+import DropdownFilter from '../dropdownFilter'
+import { useState } from 'react'
 
 type TypeSearchBar = {
   classificationStateVariable:
@@ -34,21 +34,37 @@ export const SearchBar = ({
   keyWord,
   setKeyWord
 }: TypeSearchBar) => {
+  const [query, setQuery] = useState('')
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault() // Previne o comportamento padrão do formulário de atualizar a página
+    if (keyWord !== query) {
+      console.log(
+        `Em handleSubmint() de SearchBar: keyWord(${keyWord}) !== query(${query}) => ${
+          keyWord !== query
+        }`
+      )
+      console.log(`setKeyWord(query)  => setKeyWord(${query})`)
+      setKeyWord(`&query=${query}`)
+      console.log(`Valor 'atual' de keyWord = (${keyWord})`)
+    }
+  }
+
   return (
     <DivSeachStyle>
       <Container1Search>
-        <FormContainer2Search>
+        <FormContainer2Search onSubmit={event => handleSubmit(event)}>
           <InputSeachStyle
             type="search"
             placeholder="Pesquise uma palavra-chave"
-            value={keyWord}
-            onChange={event => setKeyWord(event.target.value)}
+            value={query}
+            onChange={event => setQuery(event.target.value)}
           />
           <ButtonLupa type="submit">
             <img src={searchIcon} alt="Ìcone Lupa" />
           </ButtonLupa>
         </FormContainer2Search>
-        {/* <img src={filterIcon} alt="Ícone Filtro" /> */}
+
         <DropdownFilter
           classificationStateVariable={classificationStateVariable}
           setClassificationStateVariable={setClassificationStateVariable}
