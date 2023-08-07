@@ -4,28 +4,56 @@ import filterIcon from '../../../assets/images/icons/filterIcon.svg'
 import {
   ButtonLupa,
   Container1Search,
-  FormSeachStyle,
+  DivSeachStyle,
   InputSeachStyle,
-  Container2Search
+  FormContainer2Search
 } from './style'
-import DropdownFilter from '../dropdownFilter'
+import DropdownFilter, { TypeDropdownFilter } from '../dropdownFilter'
 
-export const SearchBar = () => {
+type TypeSearchBar = {
+  classificationStateVariable:
+    | '&classificacao=EM_ALTA'
+    | '&classificacao=EM_BAIXA'
+    | '&classificacao=NEUTRO'
+    | ''
+  setClassificationStateVariable: React.Dispatch<
+    React.SetStateAction<
+      | '&classificacao=EM_ALTA'
+      | '&classificacao=EM_BAIXA'
+      | '&classificacao=NEUTRO'
+      | ''
+    >
+  >
+  keyWord: string
+  setKeyWord: React.Dispatch<React.SetStateAction<string>>
+}
+
+export const SearchBar = ({
+  classificationStateVariable,
+  setClassificationStateVariable,
+  keyWord,
+  setKeyWord
+}: TypeSearchBar) => {
   return (
-    <FormSeachStyle>
+    <DivSeachStyle>
       <Container1Search>
-        <Container2Search>
+        <FormContainer2Search>
           <InputSeachStyle
             type="search"
             placeholder="Pesquise uma palavra-chave"
+            value={keyWord}
+            onChange={event => setKeyWord(event.target.value)}
           />
           <ButtonLupa type="submit">
             <img src={searchIcon} alt="Ìcone Lupa" />
           </ButtonLupa>
-        </Container2Search>
+        </FormContainer2Search>
         {/* <img src={filterIcon} alt="Ícone Filtro" /> */}
-        <DropdownFilter />
+        <DropdownFilter
+          classificationStateVariable={classificationStateVariable}
+          setClassificationStateVariable={setClassificationStateVariable}
+        />
       </Container1Search>
-    </FormSeachStyle>
+    </DivSeachStyle>
   )
 }

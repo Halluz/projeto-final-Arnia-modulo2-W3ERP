@@ -167,13 +167,28 @@ export const ProductsPage = () => {
     []
   )
   const [parameters, setParameters] = useState('')
+  const [keyWord, setKeyWord] = useState('') // Palavra-chave
+  const [classification, setClassification] = useState<
+    | '&classificacao=EM_ALTA'
+    | '&classificacao=EM_BAIXA'
+    | '&classificacao=NEUTRO'
+    | ''
+  >('')
+  let letParameters = `${classification}${keyWord}`
+  if (letParameters !== parameters) {
+    setParameters(letParameters)
+  }
+
   const navigate = useNavigate()
 
   useEffect(() => {
     const authorized = autorization()
     if (authorized) {
       const getProductsListOfPageProducts2 = async () => {
-        const responseProductsList = await getProductsListOfPageProducts()
+        console.log('Valor de parameters no productsPage: ', parameters)
+        const responseProductsList = await getProductsListOfPageProducts(
+          parameters
+        )
         console.log(
           'Resposta API página de Produtos (no plural): ',
           responseProductsList
@@ -184,13 +199,16 @@ export const ProductsPage = () => {
     } else {
       navigate('/naoautorizado')
     }
-  }, [])
+  }, [classification])
   return (
     <ContainerPage>
       <TitlePage>Produtos</TitlePage>
       <ContainerTable>
         <div>
-          <SearchBar />
+          <SearchBar
+            classificationStateVariable={classification}
+            setClassificationStateVariable={setClassification}
+          />
         </div>
         <Table1 col1="ID" col2="Produtos" col3="Status" col4="Percentual">
           {productsList.map((element, index) => (

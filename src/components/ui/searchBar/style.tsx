@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { colors } from '@/assets/styles/colors'
 
-export const FormSeachStyle = styled.form`
+export const DivSeachStyle = styled.div`
   width: 100%;
 `
 
@@ -26,7 +26,7 @@ export const Container1Search = styled.div`
   gap: 1.6rem;
 `
 
-export const Container2Search = styled.div`
+export const FormContainer2Search = styled.form`
   width: 100%;
   max-width: 40rem;
   border: 1 solid green;
