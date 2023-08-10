@@ -10,6 +10,7 @@ import {
   autorization,
   getProductsListOfPageProducts
 } from '@/config/services/functions'
+import Pagination from '@/components/ui/Pagination'
 
 type TypeVet2 = {
   atributo1: string
@@ -174,12 +175,24 @@ export const ProductsPage = () => {
     | '&classificacao=NEUTRO'
     | ''
   >('')
-  let letParameters = `${classification}${keyWord}`
+  const [currentPage, setCurrentPage] = useState(
+    responseProductsPage.pageable.pageNumber
+  ) // 0
+  const [totalPages, setTotalPages] = useState(responseProductsPage.totalPages)
+  const [totalElements, setTotalElements] = useState(
+    responseProductsPage.totalElements
+  )
+
+  let letParameters = `${classification}${keyWord}&page=${currentPage}`
   if (letParameters !== parameters) {
     setParameters(letParameters)
   }
 
   const navigate = useNavigate()
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page)
+  }
 
   useEffect(() => {
     const authorized = autorization()
@@ -193,6 +206,7 @@ export const ProductsPage = () => {
           'Resposta API página de Produtos (no plural): ',
           responseProductsList
         )
+        setResponseProductsPage(responseProductsList)
         setProductsList(responseProductsList.content)
       }
       getProductsListOfPageProducts2()
@@ -228,7 +242,12 @@ export const ProductsPage = () => {
               lineHeight="8rem"
             />
           ))}
-
+          <Pagination
+            totalElements={totalElements}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
           {/* {vet2.map((element, index) => (
             <Table1Row
               typeLink="product"

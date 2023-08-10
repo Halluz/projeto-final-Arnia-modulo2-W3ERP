@@ -1,0 +1,19 @@
+Me explique esta parte: "const pagesToShow = Array.from({ length: Math.min(5, totalPages) }, (_, i) => i + 1);
+".
+
+Claro, vou explicar essa parte do código em detalhes:
+
+tsx
+Copy code
+const pagesToShow = Array.from({ length: Math.min(5, totalPages) }, (_, i) => i + 1);
+Essa linha de código cria um array de números representando as páginas que serão exibidas na paginação. Vamos quebrar essa linha em partes para entender melhor:
+
+Array.from: Array.from() é um método estático da classe Array em JavaScript que cria um novo array a partir de um objeto parecido com um array (array-like) ou um iterable.
+
+{ length: Math.min(5, totalPages) }: Isso cria um objeto com uma propriedade length cujo valor é definido como o mínimo entre 5 e o número total de páginas (totalPages). Isso garante que o número de elementos no array seja limitado a cinco ou ao número total de páginas, o que for menor.
+
+(_, i) => i + 1: Isso é uma função que será aplicada para cada elemento do array resultante. O primeiro parâmetro _ é o valor do elemento, que não é utilizado nesse caso (por isso o uso de _ para indicar que é ignorado). O segundo parâmetro i é o índice do elemento no array, que é usado para calcular o número da página (índice + 1).
+
+Portanto, essa linha de código cria um array com números sequenciais de 1 até o número total de páginas ou até um máximo de 5 números (o que for menor). Isso é usado para representar as páginas que serão exibidas na paginação.
+
+Por exemplo, se totalPages for 10, pagesToShow será [1, 2, 3, 4, 5]. Se totalPages for 3, pagesToShow será [1, 2, 3].

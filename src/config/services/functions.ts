@@ -398,30 +398,31 @@ export const getProductsListOfPageProducts = async (
   }
 }
 
-export const getPredictionsPageAPI =
-  async (): Promise<TypePredictionsPageAPI> => {
-    try {
-      const response = await instance.get(`/app/predicao`)
-      console.log('Resposta API página predições: ', response.data)
-      return response.data
-    } catch (error) {
-      console.log('Ocorreu um erro: ', error)
+export const getPredictionsPageAPI = async (
+  parameters: string
+): Promise<TypePredictionsPageAPI> => {
+  try {
+    const response = await instance.get(`/app/predicao${parameters}`)
+    console.log('Resposta API página predições: ', response.data)
+    return response.data
+  } catch (error) {
+    console.log('Ocorreu um erro: ', error)
 
-      if (isAxiosError(error)) {
-        //narrowing (seleção) para o tipo de erro Axios
-        if (error.response?.status === 401) {
-          throw new Error('Operação não autorizada')
-        }
-        if (error.response?.status === 403) {
-          throw new Error('Usuário não tem permissão de acesso')
-        }
-        if (error.response?.status === 404) {
-          throw new Error('Página não encontrada')
-        }
+    if (isAxiosError(error)) {
+      //narrowing (seleção) para o tipo de erro Axios
+      if (error.response?.status === 401) {
+        throw new Error('Operação não autorizada')
       }
-      throw new Error('Página em manutenção.')
+      if (error.response?.status === 403) {
+        throw new Error('Usuário não tem permissão de acesso')
+      }
+      if (error.response?.status === 404) {
+        throw new Error('Página não encontrada')
+      }
     }
+    throw new Error('Página em manutenção.')
   }
+}
 
 export const getHistoricAPI = async (
   idClient: string | undefined,

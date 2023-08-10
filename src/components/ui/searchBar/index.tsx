@@ -11,12 +11,12 @@ import DropdownFilter from '../dropdownFilter'
 import { useState } from 'react'
 
 type TypeSearchBar = {
-  classificationStateVariable:
+  classificationStateVariable?:
     | '&classificacao=EM_ALTA'
     | '&classificacao=EM_BAIXA'
     | '&classificacao=NEUTRO'
     | ''
-  setClassificationStateVariable: React.Dispatch<
+  setClassificationStateVariable?: React.Dispatch<
     React.SetStateAction<
       | '&classificacao=EM_ALTA'
       | '&classificacao=EM_BAIXA'
@@ -40,11 +40,11 @@ export const SearchBar = ({
     event.preventDefault() // Previne o comportamento padrão do formulário de atualizar a página
     if (keyWord !== query) {
       console.log(
-        `Em handleSubmint() de SearchBar: keyWord(${keyWord}) !== query(${query}) => ${
+        `Em handleSubmit() de SearchBar: keyWord(${keyWord}) !== query(${query}) => ${
           keyWord !== query
         }`
       )
-      console.log(`setKeyWord(query)  => setKeyWord(${query})`)
+      console.log(`setKeyWord(&query=query)  => setKeyWord(&query=${query})`)
       setKeyWord(`&query=${query}`)
       console.log(`Valor 'atual' de keyWord = (${keyWord})`)
     }
@@ -65,10 +65,15 @@ export const SearchBar = ({
           </ButtonLupa>
         </FormContainer2Search>
 
-        <DropdownFilter
-          classificationStateVariable={classificationStateVariable}
-          setClassificationStateVariable={setClassificationStateVariable}
-        />
+        {classificationStateVariable !== undefined &&
+        setClassificationStateVariable !== undefined ? (
+          <DropdownFilter
+            classificationStateVariable={classificationStateVariable}
+            setClassificationStateVariable={setClassificationStateVariable}
+          />
+        ) : (
+          ''
+        )}
       </Container1Search>
     </DivSeachStyle>
   )

@@ -409,13 +409,23 @@ export const PredictionsPage = () => {
   const [vetCardPredictions, setVetCardPredictions] = useState<
     TypeCardPredictions[]
   >([])
+  const [keyWord, setKeyWord] = useState('')
+
+  const [parameters, setParameters] = useState('')
+
   const navigate = useNavigate()
+
+  let letParameters = `?size=40${keyWord}`
+  if (parameters !== letParameters) {
+    setParameters(letParameters)
+  }
 
   useEffect(() => {
     const authorized = autorization()
     if (authorized) {
       const getPredictionsPageAPI2 = async () => {
-        const response = await getPredictionsPageAPI()
+        console.log('Valor de parameter em predictionsPage: ', parameters)
+        const response = await getPredictionsPageAPI(parameters)
         setResponsePreditionsPage(response)
         setVetCardPredictions(response.content)
       }
@@ -423,12 +433,12 @@ export const PredictionsPage = () => {
     } else {
       navigate('/naoautorizado')
     }
-  }, [])
+  }, [parameters])
   return (
     <ContainerPage>
       <TitlePage>Predições</TitlePage>
       <DivHeader>
-        <SearchBar />
+        <SearchBar keyWord={keyWord} setKeyWord={setKeyWord} />
       </DivHeader>
       <ContainerCardsPrediction>
         {vetCardPredictions.map((element, index) => (
