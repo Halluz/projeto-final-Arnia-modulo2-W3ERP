@@ -11,8 +11,6 @@ import { ClientPage } from '@/pages/clientPage'
 import { Mold } from '@/components/ui/mold'
 import { PredictionClientPage } from '@/pages/PredictionClientPage'
 import { NotAuthorized } from '@/pages/notAuthorized'
-import ComponentExemplo3 from '@/PERGUNTAS/pagination3/sampleTable'
-import ComponentExemplo2 from '@/PERGUNTAS/pagination2/sampleTable'
 
 export default function Router() {
   return (
@@ -33,14 +31,6 @@ export default function Router() {
             element={<ProductPage />}
           />
           <Route path="/mold/clientPage/:idClient" element={<ClientPage />} />
-          <Route
-            path="/mold/exemploPaginacao2"
-            element={<ComponentExemplo2 />}
-          />
-          <Route
-            path="/mold/exemploPaginacao3"
-            element={<ComponentExemplo3 />}
-          />
         </Route>
       </Routes>
     </BrowserRouter>
