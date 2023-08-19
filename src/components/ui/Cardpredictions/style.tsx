@@ -39,11 +39,13 @@ export const ContainerClientNameAndStatus = styled.div`
     list-style: none;
   }
 `
-export const Item = styled.li<{ status: 'EM_ALTA' | 'EM_BAIXA' | 'NEUTRO' }>`
+export const Item = styled.li<{
+  status: 'EM_ALTA' | 'EM ALTA' | 'EM_BAIXA' | 'EM BAIXA' | 'NEUTRO'
+}>`
   color: ${({ status }) =>
-    status === 'EM_ALTA'
+    status === 'EM_ALTA' || status === 'EM ALTA'
       ? `${colors.success}`
-      : status === `EM_BAIXA`
+      : status === `EM_BAIXA` || status === 'EM BAIXA'
       ? `${colors.error}`
       : `${colors.grey500}`};
   display: flex;
@@ -70,12 +72,12 @@ export const LinkCardPrediction = styled(Link)`
 `
 
 export const MarkerStyle = styled.img<{
-  status: 'EM_ALTA' | 'EM_BAIXA' | 'NEUTRO'
+  status: 'EM_ALTA' | 'EM ALTA' | 'EM_BAIXA' | 'EM BAIXA' | 'NEUTRO'
 }>`
-  fill: ${({ status }) =>
-    status === 'EM_ALTA'
+  filter: ${({ status }) =>
+    status === 'EM_ALTA' || status === 'EM ALTA'
       ? `${colors.success}`
-      : status === 'EM_BAIXA'
+      : status === 'EM_BAIXA' || status === 'EM BAIXA'
       ? `${colors.error}`
       : `${colors.grey500}`}; //hue-rotate(180);
 `

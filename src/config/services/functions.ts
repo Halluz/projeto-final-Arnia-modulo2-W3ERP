@@ -431,7 +431,9 @@ export const getHistoricAPI = async (
   const params = parameters ?? '' //??: Esse é o operador de coalescência nula, também conhecido como nullish coalescing operator. Ele é usado para fornecer um valor padrão quando o valor à esquerda é null ou undefined. Se o valor à esquerda for diferente de null ou undefined, o operador retornará esse valor à esquerda.
   try {
     //`/app/predicao/${idClient}/historico${params}`
-    const response = await instance.get(`/app/predicao/${idClient}/historico`)
+    const response = await instance.get(
+      `/app/predicao/${idClient}/historico${params}`
+    )
     console.log(
       'Resposta API Histórico de produtos da página Predicao Cliente: ',
       response.data

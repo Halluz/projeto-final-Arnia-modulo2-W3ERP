@@ -178,10 +178,6 @@ export const ProductsPage = () => {
   const [currentPage, setCurrentPage] = useState(
     responseProductsPage.pageable.pageNumber
   ) // 0
-  const [totalPages, setTotalPages] = useState(responseProductsPage.totalPages)
-  const [totalElements, setTotalElements] = useState(
-    responseProductsPage.totalElements
-  )
 
   let letParameters = `${classification}${keyWord}&page=${currentPage}`
   if (letParameters !== parameters) {
@@ -214,6 +210,9 @@ export const ProductsPage = () => {
       navigate('/naoautorizado')
     }
   }, [parameters])
+
+  useEffect(() => {}, [])
+
   return (
     <ContainerPage>
       <TitlePage>Produtos</TitlePage>
@@ -242,12 +241,7 @@ export const ProductsPage = () => {
               lineHeight="8rem"
             />
           ))}
-          <Pagination
-            totalElements={totalElements}
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={handlePageChange}
-          />
+
           {/* {vet2.map((element, index) => (
             <Table1Row
               typeLink="product"
@@ -264,6 +258,13 @@ export const ProductsPage = () => {
             />
           ))} */}
         </Table1>
+
+        <Pagination
+          totalElements={responseProductsPage.totalElements}
+          currentPage={responseProductsPage.pageable.pageNumber}
+          totalPages={responseProductsPage.totalPages}
+          onPageChange={handlePageChange}
+        />
       </ContainerTable>
       {/* <ContainerTable>
         <div>

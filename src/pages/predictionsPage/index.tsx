@@ -18,6 +18,7 @@ import {
   getPredictionsPageAPI
 } from '@/config/services/functions'
 import { useNavigate } from 'react-router-dom'
+import Pagination from '@/components/ui/Pagination'
 
 type TypeMocadoProduct = {
   productName: string
@@ -410,12 +411,13 @@ export const PredictionsPage = () => {
     TypeCardPredictions[]
   >([])
   const [keyWord, setKeyWord] = useState('')
-
   const [parameters, setParameters] = useState('')
-
+  const [currentPage, setCurrentPage] = useState(
+    responsePredictionsPage.pageable.pageNumber
+  )
   const navigate = useNavigate()
 
-  let letParameters = `?size=40${keyWord}`
+  let letParameters = `?size=40${keyWord}&page=${currentPage}`
   if (parameters !== letParameters) {
     setParameters(letParameters)
   }
@@ -445,7 +447,13 @@ export const PredictionsPage = () => {
           <CardPredictions
             key={`${index}${element.id}`}
             clientName={element.nome}
-            clientStatus={element.classificacao}
+            clientStatus={
+              element.classificacao === 'EM_ALTA'
+                ? (element.classificacao.replace('_', ' ') as 'EM_ALTA')
+                : element.classificacao === 'EM_BAIXA'
+                ? (element.classificacao.replace('_', ' ') as 'EM_BAIXA')
+                : element.classificacao
+            }
             idClient={String(element.id)}
             clientTel={element.telefone}
             clientEmail={element.email}
@@ -480,6 +488,12 @@ export const PredictionsPage = () => {
           </CardPredictions>
         ))} */}
       </ContainerCardsPrediction>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={responsePredictionsPage.totalPages}
+        totalElements={responsePredictionsPage.totalElements}
+        onPageChange={setCurrentPage}
+      />
     </ContainerPage>
   )
 }

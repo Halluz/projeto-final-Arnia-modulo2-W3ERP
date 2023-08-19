@@ -18,6 +18,7 @@ import {
   getHistoricAPI
 } from '@/config/services/functions'
 import { useParams, useNavigate } from 'react-router-dom'
+import Pagination from '@/components/ui/Pagination'
 
 const vet1 = [
   {
@@ -255,6 +256,43 @@ export type TypeHistoricAPI = {
   totalPages: number
 }
 
+const initial2 = {
+  content: [
+    {
+      id: 0,
+      nome: 'string',
+      proximaCompra: 'string',
+      quantidade: 0,
+      ultimaCompra: 'string'
+    }
+  ],
+  empty: true,
+  first: true,
+  last: true,
+  number: 0,
+  numberOfElements: 0,
+  pageable: {
+    offset: 0,
+    pageNumber: 0,
+    pageSize: 0,
+    paged: true,
+    sort: {
+      empty: true,
+      sorted: true,
+      unsorted: true
+    },
+    unpaged: true
+  },
+  size: 0,
+  sort: {
+    empty: true,
+    sorted: true,
+    unsorted: true
+  },
+  totalElements: 0,
+  totalPages: 0
+}
+
 export type TypeProductEsgotando = {
   id: number
   nome: string
@@ -298,10 +336,28 @@ export const PredictionClientPage = () => {
   const [listProductsHistoric, setListProductsHistoric] = useState<
     TypeProductHistoric[]
   >([])
-  const [esgotando, setEsgotando] = useState<TypeEsgotandoAPI>()
+  const [esgotando, setEsgotando] = useState<TypeEsgotandoAPI>(initial2)
   const [listProductsEsgotando, setListProductsEsgotando] = useState<
     TypeProductEsgotando[]
   >([])
+  const [currentPageHistoric, setCurrentPageHistoric] = useState(
+    historic.pageable.pageNumber
+  )
+  const [currentPageEsgotando, setCurrentPageEsgotando] = useState(
+    esgotando.pageable.pageNumber
+  )
+  const [parametersHistoric, setParametersHistoric] = useState('')
+  const [parametersEsgotando, setParametersEsgotando] = useState('')
+
+  let letParametersHistoric = `?page=${currentPageHistoric}`
+  if (parametersHistoric !== letParametersHistoric) {
+    setParametersHistoric(letParametersHistoric)
+  }
+
+  let letParametersEsgotando = `?page=${currentPageEsgotando}`
+  if (parametersEsgotando !== letParametersEsgotando) {
+    setParametersEsgotando(letParametersEsgotando)
+  }
 
   const { idClient, clientName, tel, email } = useParams()
   const navigate = useNavigate()
@@ -310,13 +366,29 @@ export const PredictionClientPage = () => {
     const authorized = autorization()
     if (authorized) {
       const helperAsyncFunction = async () => {
-        const responseHistoric = await getHistoricAPI(idClient)
+        const responseHistoric = await getHistoricAPI(
+          idClient,
+          parametersHistoric
+        )
         setHistoric(responseHistoric)
         console.log('Histórico aqui: ', responseHistoric)
         setListProductsHistoric(responseHistoric.content)
         // setListProductsHistoric(historic.content)
+      }
+      helperAsyncFunction()
+    } else {
+      navigate('/naoautorizado')
+    }
+  }, [parametersHistoric])
 
-        const responseEsgotando = await getEsgotandoAPI(idClient)
+  useEffect(() => {
+    const authorized = autorization()
+    if (authorized) {
+      const helperAsyncFunction = async () => {
+        const responseEsgotando = await getEsgotandoAPI(
+          idClient,
+          parametersEsgotando
+        )
         setEsgotando(responseEsgotando)
         setListProductsEsgotando(responseEsgotando.content)
       }
@@ -324,7 +396,8 @@ export const PredictionClientPage = () => {
     } else {
       navigate('/naoautorizado')
     }
-  }, [])
+  }, [parametersEsgotando])
+
   return (
     <ContainerPage>
       <Back content="Detalhamento" />
@@ -370,6 +443,12 @@ export const PredictionClientPage = () => {
               />
             ))} */}
           </Table2>
+          <Pagination
+            currentPage={currentPageHistoric}
+            totalElements={historic.totalElements}
+            totalPages={historic.totalPages}
+            onPageChange={setCurrentPageHistoric}
+          />
         </ContainerTable>
         <ContainerTable>
           <div>
@@ -410,6 +489,12 @@ export const PredictionClientPage = () => {
               />
             ))} */}
           </Table3>
+          <Pagination
+            currentPage={currentPageEsgotando}
+            totalElements={esgotando.totalElements}
+            totalPages={esgotando.totalPages}
+            onPageChange={setCurrentPageEsgotando}
+          />
         </ContainerTable>
       </ContainerTables>
     </ContainerPage>

@@ -8,16 +8,15 @@ const PaginationContainerExternal = styled.div`
   align-items: center;
   margin-top: 1.6rem;
   width: 100%;
-  border: 1px solid blue;
+  /* border: 1px solid blue; */
 `
 
 const PaginationContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 1.6rem;
   width: 30rem;
-  border: 1px solid red;
+  /* border: 1px solid red; */
 `
 
 const PaginationButton = styled.button<{ notOperable?: boolean }>`
@@ -25,6 +24,7 @@ const PaginationButton = styled.button<{ notOperable?: boolean }>`
   background-color: #007bff;
   color: white;
   border: none;
+  border-radius: 0.8rem;
   cursor: pointer;
   ${props =>
     props.notOperable
@@ -52,18 +52,18 @@ const Pagination: React.FC<PaginationProps> = ({
       <PaginationContainer>
         <PaginationButton
           onClick={() => onPageChange(currentPage - 1)}
-          disabled={currentPage <= 1}
-          notOperable={currentPage <= 1}
+          disabled={currentPage <= 0}
+          notOperable={currentPage <= 0}
         >
           Anterior
         </PaginationButton>
         <span>
-          Página {currentPage} de {totalPages}
+          Página {currentPage + 1} de {totalPages}
         </span>
         <PaginationButton
           onClick={() => onPageChange(currentPage + 1)}
-          disabled={currentPage >= totalPages}
-          notOperable={currentPage >= totalPages}
+          disabled={currentPage >= totalPages - 1}
+          notOperable={currentPage >= totalPages - 1}
         >
           Próxima
         </PaginationButton>
