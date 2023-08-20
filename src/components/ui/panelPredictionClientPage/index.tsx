@@ -8,9 +8,9 @@ import {
 } from './style'
 
 type TypePanelPrediction = {
-  clientName: string | undefined
-  clientPhoneNumber: string | undefined
-  clientEmail: string | undefined
+  clientName: string | undefined | null
+  clientPhoneNumber: string | undefined | null
+  clientEmail: string | undefined | null
 }
 
 export const PanelPrediction = ({
@@ -18,18 +18,27 @@ export const PanelPrediction = ({
   clientPhoneNumber,
   clientEmail
 }: TypePanelPrediction) => {
+  console.log(
+    `Valores das props do componente "PanelPrediction": clientName=${clientName}; clientPhoneNumber=${clientPhoneNumber}; clientEmail=${clientEmail}`
+  )
+
   return (
     <ContainerPanelPredictionClient>
       <TitlePanelPrediction>{clientName}</TitlePanelPrediction>
       <ContainerPanelPredictionClient2>
-        <ContainerPanelPredictionClient3>
-          <img src={phoneLogo} alt="Logo de telefone" />
-          {clientPhoneNumber}
-        </ContainerPanelPredictionClient3>
-        <ContainerPanelPredictionClient3>
-          <img src={emailLogo} alt="Logo e-mail" />
-          {clientEmail}
-        </ContainerPanelPredictionClient3>
+        {clientPhoneNumber ? (
+          <ContainerPanelPredictionClient3>
+            <img src={phoneLogo} alt="Logo de telefone" />
+            {clientPhoneNumber}
+          </ContainerPanelPredictionClient3>
+        ) : null}
+
+        {clientEmail ? (
+          <ContainerPanelPredictionClient3>
+            <img src={emailLogo} alt="Logo e-mail" />
+            {clientEmail}
+          </ContainerPanelPredictionClient3>
+        ) : null}
       </ContainerPanelPredictionClient2>
     </ContainerPanelPredictionClient>
   )

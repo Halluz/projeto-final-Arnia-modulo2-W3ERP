@@ -3,15 +3,20 @@ import { colors } from '@/assets/styles/colors'
 
 export const Tab1Style = styled.table`
   width: 100%; //70.7rem
-  border-collapse: collapse;
+  //border-collapse: collapse;
+  border-collapse: separate;
   //border: 2px solid red;
-  //border-radius: 1.6rem, 1.6rem, 0rem, 0rem;
-  /* border-radius: 3rem; */
+  border-spacing: 0;
+  border-radius: 1.6rem 1.6rem 0rem 0rem;
+  //border-radius: 3rem;
 `
 
 export const Tab1Head = styled.thead`
   background-color: ${colors.primaryBlue};
-  border-radius: 1.6rem 1.6rem 0rem 0rem;
+  //border-radius: 1.6rem 1.6rem 0rem 0rem;
+  //border: 5px solid green;
+  border-bottom-left-radius: 1.6rem;
+  border-top-right-radius: 1.6rem;
   height: 5.6rem;
   color: ${colors.azul4};
   font-size: 1.6rem;

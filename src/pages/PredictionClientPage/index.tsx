@@ -361,6 +361,9 @@ export const PredictionClientPage = () => {
 
   const { idClient, clientName, tel, email } = useParams()
   const navigate = useNavigate()
+  console.log(
+    `Na página Predição do Cliente, os parâmetros capturados na url são: idClient=${idClient}; clientName=${clientName}; tel=${tel}; email=${email}`
+  )
 
   useEffect(() => {
     const authorized = autorization()
